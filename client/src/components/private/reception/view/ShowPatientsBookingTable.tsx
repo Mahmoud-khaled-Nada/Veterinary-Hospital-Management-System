@@ -8,6 +8,8 @@ const ShowPatientsBookingTable = () => {
 
   const { data: bookings, isLoading } = getPatientsBookingAllOrBySearch(searchTerm);
 
+  console.log(bookings);
+
   return (
     <div className="flex flex-col">
       <div className="-m-1.5 overflow-x-auto">
@@ -31,6 +33,13 @@ const ShowPatientsBookingTable = () => {
                       className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
                     >
                       Specialty
+                    </th>
+
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
+                    >
+                      Doctor
                     </th>
 
                     <th
@@ -80,6 +89,9 @@ const ShowPatientsBookingTable = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                             {row.specialty_name}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                            {row.doctor_name}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                             {row.detection_price}

@@ -38,6 +38,11 @@ const router = createBrowserRouter([
         path: "/doctor",
         element: <Doctor />,
       },
+      {
+        path: "/test",
+        element: <textPath />,
+      },
+      
     ],
   },
 

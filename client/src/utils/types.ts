@@ -116,6 +116,7 @@ export type PatientsBookingDetails = {
   map: any;
 };
 
+
 export type BookingState = {
   bookings: PatientsBookingDetails[];
 };
