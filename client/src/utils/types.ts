@@ -29,7 +29,6 @@ export type specialtiesDetailsType = {
 export type AuthorizationToken = {
   token: any;
   user: UserDetails;
-
 };
 
 export type UserLoginParams = {
@@ -75,6 +74,7 @@ export type PatientDetails = {
 
 export type ReceptionState = {
   patients: PatientDetails[];
+  DoctorsAppointments: AppointmentsDetails[];
   isLoading?: boolean;
 };
 

@@ -1,10 +1,11 @@
 import { ReceptionState } from "@/utils/types";
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { getFromReceptionPatientThunk } from "./receptionThunk";
+import { fetchDoctorsAppointmentsThunk, getFromReceptionPatientThunk } from "./receptionThunk";
 import { RootState } from "../store";
 
 const initialState: ReceptionState = {
   patients: [],
+  DoctorsAppointments: [],
 };
 
 export const receptionSlice = createSlice({
@@ -19,6 +20,10 @@ export const receptionSlice = createSlice({
       })
       .addCase(getFromReceptionPatientThunk.rejected, () => {
         console.log("getFromReceptionPatientThunk.rejected");
+      })
+      .addCase(fetchDoctorsAppointmentsThunk.fulfilled, (state, action) => {
+        console.log("getFromReceptionPatientThunk.fulfilled");
+        state.DoctorsAppointments = action.payload;
       }),
 });
 
@@ -30,5 +35,13 @@ export const selectPatientsById = createSelector(
   (getPatienys, patienyId) => getPatienys.find((c) => c.id === patienyId)
 );
 
-// export const {  } = receptionSlice.actions;
+const getAppointments = (state: RootState) => state.reception.DoctorsAppointments;
+const selectAppointmentId = (state: RootState, id: number) => id;
+
+export const selectDoctorAppointment = createSelector(
+  [getAppointments, selectAppointmentId],
+  (Appointments, AppointmentId) => Appointments.filter((appointment) => appointment.user_id === AppointmentId)
+);
+
+// export const { selectDoctorAppointment } = receptionSlice.actions;
 export default receptionSlice.reducer;

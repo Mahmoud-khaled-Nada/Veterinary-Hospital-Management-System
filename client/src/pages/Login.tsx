@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { setUserFromLogin } from "@/redux/users/userSlice";
+import { FaRegUser } from "react-icons/fa";
+import { GoKey } from "react-icons/go";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -107,36 +109,45 @@ const Login = () => {
                   </div>
                   <form className="mt-8 grid grid-cols-6 gap-6" onSubmit={handleSubmit(onSubmit)}>
                     <div className="col-span-6">
-                      <label htmlFor="Email" className="block text-sm font-medium text-gray-700">
-                        Email
-                      </label>
-                      <input
-                        placeholder="email@example.com"
-                        {...register("email", {
-                          required: "This field is required",
-                        })}
-                        className="block w-full rounded-lg border-gray-200 p-3 text-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
-                      />
+                      <div className="relative">
+                        <label htmlFor="Email" className="block text-sm font-medium text-gray-700 my-2">
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          className="peer py-3 px-4 ps-11 block w-full bg-gray-100 text-gray-900 block text-sm border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50"
+                          placeholder="Enter email"
+                          {...register("email", {
+                            required: "This field is required",
+                          })}
+                        />
+                        <div className="absolute inset-y-0 mt-4 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+                          <FaRegUser className="flex-shrink-0 size-4 text-gray-500 "/>
+                        </div>
+                      </div>
                       <p className="text-sm font-medium text-red-500">
                         {errors.email?.message ? errors.email?.message : ""}
                       </p>
-                    </div>
-                    <div className="col-span-6">
-                      <label htmlFor="Password" className="block text-sm font-medium text-gray-700">
-                        Password
-                      </label>
+                      <div className="relative">
+                        <label htmlFor="Email" className="block text-sm font-medium text-gray-700 my-2">
+                        password
+                        </label>
+                        <input
+                          type="password"
+                          className="peer py-3 px-4 ps-11 block w-full bg-gray-100 text-gray-900  block text-sm border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                          placeholder="Enter password"
+                          {...register("password", {
+                            required: "This field is required",
+                          })}
+                        />
 
-                      <input
-                        type="password"
-                        placeholder="*********"
-                        {...register("password", {
-                          required: "This field is required",
-                        })}
-                        className="block w-full rounded-lg border-gray-200 p-3 text-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
-                      />
-                      <p className="text-sm font-medium text-red-500">
-                        {errors.email?.message ? errors.password?.message : ""}
-                      </p>
+                        <p className="text-sm font-medium text-red-500">
+                          {errors.email?.message ? errors.password?.message : ""}
+                        </p>
+                        <div className="absolute inset-y-0 mt-4 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+                          <GoKey className="flex-shrink-0 size-4 text-gray-500 "/>
+                        </div>
+                      </div>
                     </div>
                     <div className="col-span-6">
                       <label htmlFor="MarketingAccept" className="flex gap-4">

@@ -9,6 +9,7 @@ use App\Models\DoctorAppointment;
 use App\Models\Specialty;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -145,6 +146,9 @@ class DoctorsController extends Controller
 
     public function getByAppointment(string $id)
     {
+        $user = Auth::user();
+
+        // if ($id != $user->id) return response()->json(404);
         $doctor = $this->getUserAsDoctor($id);
 
         $appointments = $doctor->doctorAppointments()->get();

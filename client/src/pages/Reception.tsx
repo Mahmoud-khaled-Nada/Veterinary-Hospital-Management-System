@@ -1,5 +1,5 @@
 import TabsNavigator from "@/components/common/TabsNavigator";
-import { NewPatient, ShowPatientsBooking } from "@/components/private/reception";
+import { DoctorList, NewPatient, ShowPatientsBooking } from "@/components/private/reception";
 import { useState } from "react";
 import { Bs1CircleFill, Bs2CircleFill, Bs3CircleFill  } from "react-icons/bs";
 
@@ -18,9 +18,9 @@ const Reception = () => {
       content: <ShowPatientsBooking />,
     },
     {
-      title: "Get Employee as Admin",
+      title: "Doctors",
       icon: <Bs3CircleFill />,
-      content: "Hello tab two",
+      content: <DoctorList />,
     },
   ];
 
@@ -32,3 +32,6 @@ const Reception = () => {
 };
 
 export default Reception;
+
+
+//

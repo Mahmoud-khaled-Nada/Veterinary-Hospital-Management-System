@@ -1,4 +1,4 @@
-import { getPatientAPI } from "@/utils/apis";
+import { getDoctorsAppointmentsAPI, getPatientAPI } from "@/utils/apis";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getFromReceptionPatientThunk = createAsyncThunk(
@@ -8,3 +8,13 @@ export const getFromReceptionPatientThunk = createAsyncThunk(
     return response.data?.data;
   }
 );
+
+
+
+export const fetchDoctorsAppointmentsThunk = createAsyncThunk(
+  'fetch/all/appointments',
+  async () => {
+    const response = await getDoctorsAppointmentsAPI();
+    return response.data;
+  }
+)
