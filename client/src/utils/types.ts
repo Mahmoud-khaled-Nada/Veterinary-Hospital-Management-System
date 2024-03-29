@@ -116,7 +116,6 @@ export type PatientsBookingDetails = {
   map: any;
 };
 
-
 export type BookingState = {
   bookings: PatientsBookingDetails[];
 };
@@ -160,4 +159,18 @@ export type AppointmentsDetails = {
 
 export type AppointmentsState = {
   appointments: AppointmentsDetails[];
+};
+
+//Notifications
+
+export type BookingNotificationsDetails = {
+  booking_at: string;
+  owner_name: string;
+  owner_email: string;
+  animal_name: string;
+  animal_type: string;
+};
+
+export type BookingNotificationsState = {
+  bookingNotifications: BookingNotificationsDetails[];
 };

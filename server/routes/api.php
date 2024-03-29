@@ -1,14 +1,12 @@
 <?php
 
-use App\Events\PatientBookingCreated;
 use App\Http\Controllers\Api\AdministrativeController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DoctorsController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PatientBookingController;
 use App\Http\Controllers\Api\ReceptionController;
 use App\Http\Controllers\Api\SpecialtiesController;
-use App\Models\User;
-use App\Notifications\SendPatientCreatedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -73,17 +71,8 @@ Route::group(['prefix' => 'bookings'], function () {
 });
 
 
-//PatientBookingCreated
-
-Route::get('/nada', function () {
-
-    // PatientBookingCreated::dispatch();
-
-    // event(new PatientBookingCreated("Hello Mahmoud event and listener is working "));
-
-    // return 'welcome';
 
 
-    $user = User::find(1); // Example user
-    $user->notify(new SendPatientCreatedNotification());
+Route::group(['middleware' => 'auth:api','prefix' => 'notifications'], function () {
+    Route::get('/booking/patients-notifications', [NotificationController::class, 'bookingPatientsNotifications']);
 });

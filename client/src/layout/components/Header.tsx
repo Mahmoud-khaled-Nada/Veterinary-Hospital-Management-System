@@ -1,6 +1,7 @@
-import { IoSearchOutline, IoNotificationsOutline } from "react-icons/io5";
+import { IoSearchOutline } from "react-icons/io5";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 import { AvatarDropdown } from "./AvatarDropdown";
+import NotificationsHeader from "@/components/common/notifications/NotificationsHeader";
 
 const Header = () => {
   return (
@@ -14,10 +15,8 @@ const Header = () => {
           <IoSearchOutline className="h-4 w-4" />
           <span className="sr-only">Search</span>
         </button>
-        <button className="btn btn-sm btn-outline">
-          <IoNotificationsOutline className="h-4 w-4" />
-          <span className="sr-only">Notifications</span>
-        </button>
+        {/*Notifications*/}
+        <NotificationsHeader />
         {/* avatar context */}
         <AvatarDropdown />
       </div>

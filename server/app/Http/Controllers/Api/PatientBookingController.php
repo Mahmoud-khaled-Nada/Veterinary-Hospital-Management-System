@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Patient;
 use App\Models\PatientBooking;
 use App\Models\User;
+use App\Notifications\SendPatientCreatedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,32 +23,42 @@ class PatientBookingController extends Controller
                 'booking_date' => 'required',
                 'detection_price' => 'required',
             ]);
-
+    
             // Retrieve inputs from request
             $userId = $request->input('user_id');
             $specialtyId = $request->input('specialty_id');
             $patientId = $request->input('patient_id');
-
+    
             // Check if the user is a doctor
             if (!$this->checkIsDoctor($userId)) {
                 return response()->json(['message' => 'The ID you entered is not a doctor'], 404);
             }
-
+    
             // Check if patient exists
             if (!$this->checkPatient($patientId)) {
                 return response()->json(['message' => 'The patient you are trying to admit does not exist'], 404);
             }
-
+    
             // Create booking
-            PatientBooking::create([
+            $createBooking = PatientBooking::create([
                 'patient_id' => $patientId,
                 'user_id' => $userId,
                 'specialty_id' => $specialtyId,
                 'booking_date' => $request->input('booking_date'),
                 'detection_price' => $request->input('detection_price'),
             ]);
-
-            return response()->json(['message' => 'Booking created successfully'], 200);
+    
+            // Check if booking was created successfully
+            if ($createBooking) {
+                // Notify user about the created booking
+                $user = User::find($userId);
+                $user->notify(new SendPatientCreatedNotification($user->id, $createBooking));
+    
+                return response()->json(['message' => 'Booking created successfully'], 200);
+            } else {
+                // Booking creation failed
+                return response()->json(['message' => 'Failed to create booking'], 500);
+            }
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Failed to create booking',
@@ -55,6 +66,7 @@ class PatientBookingController extends Controller
             ], 500);
         }
     }
+    
 
 
 
@@ -78,23 +90,23 @@ class PatientBookingController extends Controller
     public function bookingSearch(Request $request)
     {
         $searchQuery = $request->input('query');
-    
+
         // Get the base query for bookings
         $bookingsQuery = $this->bookings();
-    
+
         if ($searchQuery) {
             $bookingsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('p.owner_name', 'like', '%' . $searchQuery . '%')
                     ->orWhere('pb.created_at', 'like', '%' . $searchQuery . '%');
             });
         }
-    
+
         $bookings = $bookingsQuery->get();
-    
+
         // Return the results
         return response()->json($bookings, 200);
     }
-    
+
     private function bookings()
     {
         $bookings = DB::table('patient_bookings as pb')
@@ -115,7 +127,7 @@ class PatientBookingController extends Controller
             )->orderBy('pb.booking_date');
         return $bookings;
     }
-    
+
 
     private function checkIsDoctor($doctorId)
     {

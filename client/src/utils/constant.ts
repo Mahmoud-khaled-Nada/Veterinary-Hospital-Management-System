@@ -13,7 +13,8 @@ export enum prefix {
   RECEPTION = "reception",
   PATIENT="patients",
   DOCTORS="doctors",
-  BOOKINGS="bookings"
+  BOOKINGS="bookings",
+  NOTIFICATIONS = "notifications",
 }
 
 

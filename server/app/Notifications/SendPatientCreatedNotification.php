@@ -14,9 +14,13 @@ class SendPatientCreatedNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+
+    private $booking;
+    private $doctor;
+    public function __construct($doctorId, $createdBooking)
     {
-        //
+        $this->booking = $createdBooking;
+        $this->doctor = $doctorId;
     }
 
     /**
@@ -26,7 +30,7 @@ class SendPatientCreatedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail','database'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -43,8 +47,12 @@ class SendPatientCreatedNotification extends Notification
 
     public function toDatabase($notifiable)
     {
+
+
         return [
-            'message' => 'Your notification message goes here...',
+            'doctor_id' => $this->doctor,
+            'patient_id' => $this->booking->patient_id,
+            'created_at' => $this->booking->created_at
         ];
     }
 

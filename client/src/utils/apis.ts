@@ -10,6 +10,7 @@ import {
   AddDoctorParams,
   AppointmentsParam,
   AppointmentsDetails,
+  BookingNotificationsDetails,
 } from "./types";
 import { prefix } from "./constant";
 
@@ -101,3 +102,7 @@ export const getPatientBookingAPI = () => API.get<PatientsBookingDetails>(`${pre
 
 export const getPatientBookingSearchAPI = (query: string) =>
   API.get(`${prefix.BOOKINGS}/booking/search?query=${query}`);
+
+export const bookingNotificationsAPI = () =>
+  API.get<BookingNotificationsDetails>(`${prefix.NOTIFICATIONS}/booking/patients-notifications`);
+

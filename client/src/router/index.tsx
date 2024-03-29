@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { GuestLayout, DefaultLayout } from "../layout";
 import PrivateRoute from "./PrivateRoute";
-import { Doctor, Home, Login, Reception, Specialty } from "@/pages";
+import { Doctor, EditPage, Home, Login, Reception, Specialty } from "@/pages";
 import { CreateBooking } from "@/components/private/reception";
 import Employees from "@/pages/Employees";
 
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/test",
-        element: <textPath />,
+        element: <EditPage />,
       },
       
     ],
