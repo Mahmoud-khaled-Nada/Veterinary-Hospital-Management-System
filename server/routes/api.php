@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DoctorsController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PatientBookingController;
+use App\Http\Controllers\Api\PatientProcessController;
 use App\Http\Controllers\Api\ReceptionController;
 use App\Http\Controllers\Api\SpecialtiesController;
 use Illuminate\Http\Request;
@@ -45,6 +46,9 @@ Route::group(['prefix' => 'doctors'], function () {
     // Route::get('/get-by-date/appointments', [DoctorsController::class, 'getByAppointments']);
     Route::get('/get-by/{id}/appointment', [DoctorsController::class, 'getByAppointment']);
     Route::delete('/delete/{id}/appointment', [DoctorsController::class, 'deleteAppointment']);
+    // patient queuebased on day
+    Route::get('/patients-queue', [DoctorsController::class, 'patientsQueue']);
+    Route::get('/current-patients', [DoctorsController::class, 'currentPatients']);
 });
 
 Route::group(['prefix' => 'administratives'], function () {
@@ -75,4 +79,11 @@ Route::group(['prefix' => 'bookings'], function () {
 
 Route::group(['middleware' => 'auth:api','prefix' => 'notifications'], function () {
     Route::get('/booking/patients-notifications', [NotificationController::class, 'bookingPatientsNotifications']);
+    // Route::get('/unread/booking/patients-notifications', [NotificationController::class, 'unreadBookingPatientsNotifications']);
+    Route::post('/read/booking/patients-notifications/{id}', [NotificationController::class, 'readBookingPatientsNotifications']);
+});
+
+
+Route::group(['prefix' => 'process'], function () {
+    Route::post('/transfer-to-doctor', [PatientProcessController::class, 'transferToDoctor']);
 });

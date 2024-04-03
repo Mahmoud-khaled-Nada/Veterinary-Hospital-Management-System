@@ -103,6 +103,8 @@ export type PatientBookingParams = {
 };
 
 export type PatientsBookingDetails = {
+  last_page?: any;
+  data?: any;
   id: number;
   owner_name: string;
   doctor_name: string;
@@ -157,13 +159,28 @@ export type AppointmentsDetails = {
   updated_at: string;
 };
 
+export type PatientsQueueDetails = {
+  patient_id: number;
+  user_id: number;
+  specialty_id: number;
+  booking_status: string;
+  booking_date: string;
+  owner_name: string;
+  animal_name: string;
+  animal_type: string;
+};
+
 export type AppointmentsState = {
   appointments: AppointmentsDetails[];
+  patientsQueue: PatientsQueueDetails[];
+  currentPatient: PatientsQueueDetails[];
 };
 
 //Notifications
 
 export type BookingNotificationsDetails = {
+  unread: boolean;
+  notification_id: string;
   booking_at: string;
   owner_name: string;
   owner_email: string;
@@ -172,5 +189,10 @@ export type BookingNotificationsDetails = {
 };
 
 export type BookingNotificationsState = {
-  bookingNotifications: BookingNotificationsDetails[];
+  allNotifications: BookingNotificationsDetails[];
+};
+
+export type TransferToDoctorParams = {
+  booking_id: number;
+  booking_status: string;
 };

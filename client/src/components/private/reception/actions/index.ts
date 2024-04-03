@@ -1,13 +1,22 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { getbookingNotificationsThunk } from "@/redux/notification/notificationThunk";
+import { AppDispatch } from "@/redux/store";
 import {
   addPatientAPI,
   addPatientBookingAPI,
   getPatientBookingAPI,
   getPatientBookingSearchAPI,
+  processTransferToDoctorAPI,
 } from "@/utils/apis";
 import { useToast } from "@/utils/hook/useToast";
-import { CreatePatientDetails, DoctorAppointmentsDetails, PatientBookingParams } from "@/utils/types";
+import {
+  CreatePatientDetails,
+  DoctorAppointmentsDetails,
+  PatientBookingParams,
+  TransferToDoctorParams,
+} from "@/utils/types";
 import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const { success, error } = useToast({ theme: "dark" });
@@ -19,7 +28,7 @@ export const addPatientMutation = (resetFn: () => void) => {
     mutationFn: async (data: CreatePatientDetails) => {
       return await addPatientAPI(data);
     },
-    onSuccess: (res) => { 
+    onSuccess: (res) => {
       success(res.data.message);
       resetFn();
       navigate(`/reception/booking/${res.data[0]}`);
@@ -49,9 +58,8 @@ export const filterDoctorsByDateAndSpecialty = (
   });
 };
 
-//
-
 export const addPatientBookingMutation = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const mutation = useMutation({
     mutationKey: ["addPatient"],
     mutationFn: async (data: PatientBookingParams) => {
@@ -59,6 +67,7 @@ export const addPatientBookingMutation = () => {
     },
     onSuccess: (res) => {
       console.log(res);
+      dispatch(getbookingNotificationsThunk());
       success(res.data.message);
     },
     onError: (err) => {
@@ -71,7 +80,7 @@ export const addPatientBookingMutation = () => {
   return mutation;
 };
 
-export const getPatientsBookingAllOrBySearch = (search: string) => {
+export const getPatientsBookingAllOrBySearch = (search?: string, page?: number) => {
   const query = useQuery({
     queryKey: ["getPatientBooking", search],
     queryFn: async () => {
@@ -79,16 +88,56 @@ export const getPatientsBookingAllOrBySearch = (search: string) => {
         const response = await getPatientBookingSearchAPI(search);
         return response.data;
       } else {
-        const response = await getPatientBookingAPI();
+        const response = await getPatientBookingAPI(page!);
         return response.data;
       }
     },
-    // staleTime: 1000 * 60 * 10,
-    // refetchOnWindowFocus: false,
-    // refetchOnReconnect: false,
-    // refetchOnMount: false,
-    placeholderData: keepPreviousData,
   });
 
   return query;
+};
+export const fetchAllBookingsQuery = (searchTerm: string, page: number) => {
+  const query = useQuery({
+    queryKey: ["getPatientBooking", searchTerm, page],
+    queryFn: async () => {
+      try {
+        if (searchTerm) {
+          const response = await getPatientBookingSearchAPI(searchTerm);
+          return response.data;
+        } else {
+          const response = await getPatientBookingAPI(page!);
+          return response.data;
+        }
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+        throw error;
+      }
+    },
+  });
+
+  return query;
+};
+
+export const processTransferToDoctorMutation = () => {
+  const mutationKey = ["TransferToDoctor"];
+  const mutation = useMutation({
+    mutationKey,
+    mutationFn: async (data: TransferToDoctorParams) => {
+      try {
+        return await processTransferToDoctorAPI(data);
+      } catch (error) {
+        console.error("Error processing transfer to doctor:", error);
+        throw error;
+      }
+    },
+    onSuccess: (res) => {
+      success(res.data.message);
+    },
+    onError: (err) => {
+      console.error("Error processing transfer to doctor:", err);
+      error("Error processing transfer to doctor");
+    },
+  });
+
+  return mutation;
 };

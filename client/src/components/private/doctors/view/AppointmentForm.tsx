@@ -6,9 +6,11 @@ import InputFieldWithError from "@/components/common/inputs/InputFieldWithError"
 import LoadingButton from "@/components/common/button/LoadingButton";
 import { AppointmentsParam } from "@/utils/types";
 import { addDoctorAppointmentsMutation } from "../actions";
+import { toast } from "react-toastify";
 
 const AppointmentForm = () => {
   const { user } = useSelector((state: RootState) => state.users);
+
   const {
     register,
     handleSubmit,
@@ -16,8 +18,14 @@ const AppointmentForm = () => {
   } = useForm<AppointmentsParam>();
   if (!user?.id) return;
   const mutation = addDoctorAppointmentsMutation(user?.id);
-  const onSubmit: SubmitHandler<AppointmentsParam> = async (data: AppointmentsParam) =>
+  const onSubmit: SubmitHandler<AppointmentsParam> = async (data: AppointmentsParam) => {
+    if (!user.is_doctor) {
+      toast.warn("Doctor not found");
+      return;
+    }
+
     mutation?.mutateAsync(data);
+  };
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>

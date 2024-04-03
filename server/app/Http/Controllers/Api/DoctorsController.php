@@ -8,6 +8,7 @@ use App\Models\Doctor;
 use App\Models\DoctorAppointment;
 use App\Models\Specialty;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -110,6 +111,10 @@ class DoctorsController extends Controller
             'cases_number' => ['required', 'string'],
         ]);
 
+        $isExist = $doctor->doctorAppointments()->where('day', '=',  $request->post('day'))->first();
+        if ($isExist)
+            return response()->json(['message' => 'Appointment already exists'], 400);
+
         // Create the appointment
         $create = $doctor->doctorAppointments()->create($validatedData);
 
@@ -117,7 +122,7 @@ class DoctorsController extends Controller
         return $create
             ? response()->json([
                 'message' => 'Appointment created successfully',
-                'data' => $create 
+                'data' => $create
             ], 200)
             : response()->json(['message' => 'Failed to create appointment'], 500);
     }
@@ -160,5 +165,54 @@ class DoctorsController extends Controller
     {
         DoctorAppointment::destroy($id);
         return response()->json(['message' => 'Appointment deleted successfully'], 200);
+    }
+
+
+    public function patientsQueue()
+    {
+        $doctor = Auth::id();
+        $currentDate = Carbon::now()->toDateString();
+
+        $patients = DB::table('patient_bookings')
+            ->join('patients', 'patients.id', '=', 'patient_bookings.patient_id')
+            ->where('patient_bookings.user_id', '=', $doctor)
+            ->whereDate('patient_bookings.booking_date', '=', $currentDate)
+            ->select(
+                'patient_bookings.booking_status',
+                'patient_bookings.patient_id',
+                'patient_bookings.user_id',
+                'patient_bookings.specialty_id',
+                'patient_bookings.booking_date',
+                'patients.owner_name',
+                'patients.animal_name',
+                'patients.animal_type'
+            )
+            ->orderBy('patient_bookings.booking_status')
+            ->orderBy('patient_bookings.created_at')
+            ->get();
+        return response()->json($patients, 200);
+    }
+
+    public function currentPatients()
+    {
+        $doctor = Auth::id();
+        $currentDate = Carbon::now()->toDateString();
+
+        $patient = DB::table('patient_bookings')
+            ->join('patients', 'patients.id', '=', 'patient_bookings.patient_id')
+            ->where('patient_bookings.user_id', '=', $doctor)
+            ->where('patient_bookings.booking_status', '=', "done")
+            ->whereDate('patient_bookings.booking_date', '=', $currentDate)
+            ->select(
+                'patient_bookings.patient_id',
+                'patient_bookings.user_id as doctor_id',
+                'patients.owner_name',
+                'patients.animal_name',
+                'patients.animal_type'
+            )
+            ->orderBy('patient_bookings.created_at')
+            ->first();
+
+        return response()->json($patient, 200);
     }
 }

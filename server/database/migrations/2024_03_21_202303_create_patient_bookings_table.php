@@ -20,11 +20,10 @@ return new class extends Migration
             $table->string('detection_price', 20);
             $table->string('medications')->nullable();
             $table->text('doctor_report')->nullable();
-            $table->enum('booking_status', ['done', 'waiting', 'cancel'])->default('waiting');
+            $table->enum('booking_status', ['done', 'waiting', 'in_progress', 'cancel'])->default('waiting');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -33,3 +32,6 @@ return new class extends Migration
         Schema::dropIfExists('patient_bookings');
     }
 };
+
+
+

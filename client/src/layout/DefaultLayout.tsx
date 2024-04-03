@@ -16,11 +16,11 @@ export default function DefaultLayout() {
   }, [isWidth]);
   return (
     <div className="h-screen w-full grid md:grid-cols-12">
-      <div className={`${isWidth <= 750 ? "hidden" : " bg-headerBody md:col-span-3 border-r-2 border-layoutBorder  flex flex-col"}`}>
+      <div className={`${isWidth <= 750 ? "hidden" : "flex flex-col md:col-span-2 dark:bg-headerBody border-r-2 dark:border-layoutBorder"}`}>
         {/* i need to md:col-span-2.5 */}
         <Sidebar />
       </div>
-      <div className="md:col-span-9  flex flex-col">
+      <div className="md:col-span-10  flex flex-col">
         {/* i need to md:col-span-9.5.5 */}
         <Header />
         <main className={`flex-1 flex flex-col bg-mainBody overflow-auto`}>

@@ -2,7 +2,7 @@ import React from "react";
 import { IoSearchSharp } from "react-icons/io5";
 
 interface SearchInputFieldProps {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }
 

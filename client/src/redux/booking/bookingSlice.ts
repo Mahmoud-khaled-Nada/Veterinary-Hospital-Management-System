@@ -1,6 +1,6 @@
 import { BookingState, PatientsBookingDetails } from "@/utils/types";
-import { createSlice } from "@reduxjs/toolkit";
-import { getPatientBookingThunk } from "./bookingThunk";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 const initialState: BookingState = {
   bookings: [],
@@ -10,30 +10,28 @@ export const bookingSlice = createSlice({
   name: "booking",
   initialState,
   reducers: {
-    // searchBokking: (state, action) => {
-    //   const search = action.payload;
-    //   if (!search) return;
-    //   state.bookings = state.bookings.filter((booking) => {
-    //     return (
-    //       booking.owner_name.toLowerCase().includes(search) ||
-    //       booking.booking_date.toLowerCase().includes(search) ||
-    //       booking.created_at.toLowerCase().includes(search) ||
-    //       booking.doctor_name.toLowerCase().includes(search)
-    //     );
-    //   });
-    // },
+    setBookings: (state, action) => {
+      const newBookings = action.payload.filter(
+        (booking: PatientsBookingDetails) =>
+          !state.bookings.some((existingBooking) => existingBooking.id === booking.id)
+      );
+      state.bookings.push(...newBookings);
+    },
+    deleteBookingById: (state, action) => {
+      const id = action.payload;
+      const exists = state.bookings.find((b) => b.id === id);
+      if (!exists) return;
+      state.bookings = state.bookings.filter((b) => b.id != id);
+    },
   },
-
-  extraReducers: (builder) =>
-    builder
-      .addCase(getPatientBookingThunk.fulfilled, (state, action) => {
-        console.log("getPatientBookingThunk.fulfilled");
-        state.bookings = action.payload as unknown as PatientsBookingDetails[];
-      })
-      .addCase(getPatientBookingThunk.rejected, () => {
-        console.log("getPatientBookingThunk.rejected");
-      }),
 });
 
-// export const { searchBokking } = bookingSlice.actions;
+const getBookings = (state: RootState) => state.booking.bookings;
+const bookingId = (state: RootState, id: number) => id;
+
+export const selectBookingById = createSelector([getBookings, bookingId], (bookings, bookingId) =>
+  bookings.filter((b) => b.id === bookingId)
+);
+
+export const { setBookings, deleteBookingById } = bookingSlice.actions;
 export default bookingSlice.reducer;

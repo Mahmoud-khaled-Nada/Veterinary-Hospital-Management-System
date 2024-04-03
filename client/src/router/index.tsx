@@ -42,10 +42,8 @@ const router = createBrowserRouter([
         path: "/test",
         element: <EditPage />,
       },
-      
     ],
   },
-
   {
     path: "/",
     element: <GuestLayout />,

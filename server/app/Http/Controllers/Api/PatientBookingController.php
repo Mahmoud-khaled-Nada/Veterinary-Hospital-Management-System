@@ -23,22 +23,22 @@ class PatientBookingController extends Controller
                 'booking_date' => 'required',
                 'detection_price' => 'required',
             ]);
-    
+
             // Retrieve inputs from request
             $userId = $request->input('user_id');
             $specialtyId = $request->input('specialty_id');
             $patientId = $request->input('patient_id');
-    
+
             // Check if the user is a doctor
             if (!$this->checkIsDoctor($userId)) {
                 return response()->json(['message' => 'The ID you entered is not a doctor'], 404);
             }
-    
+
             // Check if patient exists
             if (!$this->checkPatient($patientId)) {
                 return response()->json(['message' => 'The patient you are trying to admit does not exist'], 404);
             }
-    
+
             // Create booking
             $createBooking = PatientBooking::create([
                 'patient_id' => $patientId,
@@ -47,13 +47,13 @@ class PatientBookingController extends Controller
                 'booking_date' => $request->input('booking_date'),
                 'detection_price' => $request->input('detection_price'),
             ]);
-    
+
             // Check if booking was created successfully
             if ($createBooking) {
                 // Notify user about the created booking
                 $user = User::find($userId);
                 $user->notify(new SendPatientCreatedNotification($user->id, $createBooking));
-    
+
                 return response()->json(['message' => 'Booking created successfully'], 200);
             } else {
                 // Booking creation failed
@@ -66,16 +66,21 @@ class PatientBookingController extends Controller
             ], 500);
         }
     }
-    
+
 
 
 
     public function getBookings()
     {
-        $bookings = $this->bookings()->get();
+        $bookings = $this->bookings()->paginate(10);
+
+        if ($bookings->isEmpty()) {
+            return response()->json(["message" => "Booking is empty"], 404);
+        }
 
         return response()->json($bookings, 200);
     }
+
 
     public function deleteBookings($id)
     {
@@ -122,7 +127,7 @@ class PatientBookingController extends Controller
                 'pb.detection_price',
                 'pb.medications',
                 'pb.doctor_report',
-                // 'pb.booking_status', // Corrected field name
+                'pb.booking_status',
                 'pb.created_at'
             )->orderBy('pb.booking_date');
         return $bookings;

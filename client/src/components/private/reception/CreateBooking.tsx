@@ -31,7 +31,7 @@ const CreateBooking = () => {
 
   const mutation = addPatientBookingMutation();
   const onSubmit: SubmitHandler<PatientBookingParams> = async (data: PatientBookingParams) => {
-    mutation.mutateAsync(data);
+    mutation.mutateAsync(data)
   };
 
   setValue("patient_id", parseInt(patient_id));

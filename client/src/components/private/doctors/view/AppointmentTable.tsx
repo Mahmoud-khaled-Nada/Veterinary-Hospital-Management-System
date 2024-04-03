@@ -49,9 +49,9 @@ const AppointmentTable = () => {
           </tr>
         </thead>
         <tbody>
-          {appointments &&
+          {appointments.length > 0 &&
             appointments.map((row, index: number) => (
-              <tr key={index}>
+              <tr key={index} className="text-white">
                 <th>{index + 1}</th>
                 <th>{doctorId?.name}</th>
                 <th>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { addNewAppointments } from "@/redux/doctor/doctorSlice";
 import { AppDispatch } from "@/redux/store";
@@ -22,10 +23,9 @@ export const addDoctorAppointmentsMutation = (doctorId: number) => {
       dispatch(addNewAppointments(res.data));
       success(res?.message);
     },
-    onError: (err) => {
+    onError: (err: any) => {
       console.log("Create Specialty Error");
-      console.log(err);
-      error("Error sending friend request");
+      error(err.response.data.message || "Error sending friend request");
     },
   });
 

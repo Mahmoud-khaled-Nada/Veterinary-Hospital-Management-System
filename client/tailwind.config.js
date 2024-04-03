@@ -4,6 +4,7 @@ module.exports = {
     './src/**/*.{js,jsx,ts,tsx}',
     'node_modules/flowbite-react/lib/esm/**/*.js'
   ],
+  //media
   darkMode: 'media',
   theme: {
     extend: {

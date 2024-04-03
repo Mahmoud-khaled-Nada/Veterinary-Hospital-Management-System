@@ -1,20 +1,49 @@
-import React from "react";
 import dog from "@/assets/images/static-dog.jpg";
+import { getbookingNotificationsThunk } from "@/redux/notification/notificationThunk";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 const NotificationsList = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const notification = useSelector((state: RootState) => state.notification.allNotifications);
+  const memoizedNotification = useMemo(() => notification, [notification]);
+  useEffect(() => {
+    dispatch(getbookingNotificationsThunk()).unwrap();
+  }, []);
+
   return (
-    <button className="flex px-4 py-3 bg-white max-w-80">
-      <div className="flex-shrink-0">
-        <img className="rounded-full w-11 h-11" src={dog} alt="Jese image" />
-      </div>
-      <div className="w-full ps-3  text-left">
-        <div className="text-gray-500 text-sm mb-1.5 dark:text-gray-400">
-          New message from
-          <span className="font-semibold text-gray-900 dark:text-white">Jese Leos</span>: "Hey,
-          what's up? All set for the presentation?"
-        </div>
-        <div className="text-xs text-blue-600 dark:text-blue-500">a few moments ago</div>
-      </div>
-    </button>
+    <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700 p-4">
+      {memoizedNotification &&
+        memoizedNotification?.map((row, index: number) => (
+          <li key={index} className="pb-3 sm:pb-4">
+            <div className="flex items-center space-x-4 rtl:space-x-reverse">
+              <div className="flex-shrink-0">
+                <img className="w-8 h-8 rounded-full" src={dog} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center text-left gap-4">
+                  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    {row.owner_name}
+                  </p>
+                  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    {row.owner_email}
+                  </p>
+                </div>
+                <div className="flex items-center text-left gap-4">
+                  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    {row.animal_name}
+                  </p>
+                  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    {row.animal_type}
+                  </p>
+                </div>
+                <p className="text-sm text-gray-500 truncate dark:text-gray-400">{row.booking_at}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+    </ul>
   );
 };
 

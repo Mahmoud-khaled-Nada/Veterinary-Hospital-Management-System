@@ -1,9 +1,11 @@
 import { AppointmentsState } from "@/utils/types";
 import { createSlice } from "@reduxjs/toolkit";
-import { getDoctorAppointmentsThunk } from "./doctorThunk";
+import { getDoctorAppointmentsThunk, getPatientsQueuetoDoctorThunk } from "./doctorThunk";
 
 const initialState: AppointmentsState = {
   appointments: [],
+  patientsQueue: [],
+  currentPatient: [],
 };
 
 export const doctorSlice = createSlice({
@@ -20,6 +22,10 @@ export const doctorSlice = createSlice({
       if (!exists) return;
       state.appointments = state.appointments.filter((appoint) => appoint.id !== id);
     },
+    getCurrentPatient: (state) => {
+     const data = state.patientsQueue.find((patient) => patient.booking_status);
+     console.log(data);
+    },
   },
 
   extraReducers: (builder) =>
@@ -30,8 +36,12 @@ export const doctorSlice = createSlice({
       })
       .addCase(getDoctorAppointmentsThunk.rejected, () => {
         console.log("getDoctorAppointmentsThunk.rejected");
-      }),
+      })
+      .addCase(getPatientsQueuetoDoctorThunk.fulfilled, (state, action) => {
+        console.log("getPatientsQueuetoDoctorThunk.fulfilled");
+        state.patientsQueue = action.payload;
+      })
 });
 
-export const {addNewAppointments, deleteAppointments } = doctorSlice.actions;
+export const { addNewAppointments, deleteAppointments, getCurrentPatient } = doctorSlice.actions;
 export default doctorSlice.reducer;

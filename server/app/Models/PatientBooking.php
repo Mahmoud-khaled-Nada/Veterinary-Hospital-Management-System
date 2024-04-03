@@ -9,7 +9,9 @@ class PatientBooking extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'patient_id', 'user_id', 'specialty_id', 'detection_price', 'booking_date', 'medications', 'doctor_report', 'booking_status'
+        'patient_id', 'user_id', 'specialty_id',
+        'detection_price', 'booking_date', 'medications',
+         'doctor_report', 'booking_status'
     ];
 
     // relationship
@@ -28,6 +30,4 @@ class PatientBooking extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-
 }

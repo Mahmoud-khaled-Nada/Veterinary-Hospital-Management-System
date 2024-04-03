@@ -11,6 +11,7 @@ import {
   AppointmentsParam,
   AppointmentsDetails,
   BookingNotificationsDetails,
+  TransferToDoctorParams,
 } from "./types";
 import { prefix } from "./constant";
 
@@ -83,8 +84,11 @@ export const getPatientAPI = () => API.get(`${prefix.RECEPTION}/patients`);
 export const getDoctorsAPI = () => API.get(`${prefix.DOCTORS}`);
 
 export const getDoctorsAppointmentsAPI = () => API.get(`${prefix.DOCTORS}/get/appointments`);
+// doctors patients-queue
+export const getPatientsQueuetoDoctorAPI = () => API.get(`${prefix.DOCTORS}/patients-queue`);
+export const getCurrentPatientsToDoctorAPI = () => API.get(`${prefix.DOCTORS}/current-patients`);
 
-//Appointments
+//Appointments 
 
 export const addDoctorAppointmentsAPI = (id: number, data: AppointmentsParam) =>
   API.post(`${prefix.DOCTORS}/create/${id}/appointments`, data);
@@ -98,11 +102,24 @@ export const deleteAppointmentsByIdAPI = (id: number) =>
 export const addPatientBookingAPI = (data: PatientBookingParams) =>
   API.post(`${prefix.BOOKINGS}/add/patient/booking`, data);
 
-export const getPatientBookingAPI = () => API.get<PatientsBookingDetails>(`${prefix.BOOKINGS}`);
+export const getPatientBookingAPI = (currentPage: number) =>
+  API.get<PatientsBookingDetails>(`${prefix.BOOKINGS}?page=${currentPage}`);
 
 export const getPatientBookingSearchAPI = (query: string) =>
   API.get(`${prefix.BOOKINGS}/booking/search?query=${query}`);
 
+// export const unreadBookingNotificationsAPI = () =>
+//   API.get<BookingNotificationsDetails>(`${prefix.NOTIFICATIONS}/unread/booking/patients-notifications`);
+
 export const bookingNotificationsAPI = () =>
   API.get<BookingNotificationsDetails>(`${prefix.NOTIFICATIONS}/booking/patients-notifications`);
 
+export const readBookingNotificationsAPI = (id: string) =>
+  API.post(`${prefix.NOTIFICATIONS}/read/booking/patients-notifications/${id}`);
+
+///booking/patients-notifications
+
+// process/transfer-to-doctor
+
+export const processTransferToDoctorAPI = (data: TransferToDoctorParams) =>
+  API.post(`/process/transfer-to-doctor`, data);

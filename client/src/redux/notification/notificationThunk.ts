@@ -8,4 +8,3 @@ export const getbookingNotificationsThunk = createAsyncThunk(
     return response.data;
   }
 );
-
