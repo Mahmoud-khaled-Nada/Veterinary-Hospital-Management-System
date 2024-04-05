@@ -9,12 +9,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        white :"#fff",
+        white: "#fff",
         black: "#000",
         mainBody: "#0f172a",
-        sidebarBody:"#0f172a",
-        headerBody:"#0f172a",
-        layoutBorder:"#374151",
+        sidebarBody: "#0f172a",
+        headerBody: "#0f172a",
+        layoutBorder: "#374151",
+
+        // white :"#fff",
+        // black: "#fff",
+        // mainBody: "#fff",
+        // sidebarBody:"#fff",
+        // headerBody:"#fff",
+        // layoutBorder:"#fff",
       },
     },
   },

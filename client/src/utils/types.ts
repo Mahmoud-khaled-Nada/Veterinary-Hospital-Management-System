@@ -103,6 +103,7 @@ export type PatientBookingParams = {
 };
 
 export type PatientsBookingDetails = {
+  filter(arg0: (booking: PatientsBookingDetails) => boolean): unknown;
   last_page?: any;
   data?: any;
   id: number;
@@ -120,6 +121,8 @@ export type PatientsBookingDetails = {
 
 export type BookingState = {
   bookings: PatientsBookingDetails[];
+  lastPage: number;
+  isLoading: boolean;
 };
 
 // user add
@@ -160,6 +163,7 @@ export type AppointmentsDetails = {
 };
 
 export type PatientsQueueDetails = {
+  booking_id: number;
   patient_id: number;
   user_id: number;
   specialty_id: number;
@@ -195,4 +199,12 @@ export type BookingNotificationsState = {
 export type TransferToDoctorParams = {
   booking_id: number;
   booking_status: string;
+};
+
+
+export type DoctorReportParams = {
+  booking_id: number;
+  booking_status: string;
+  medications?: string | undefined;
+  doctor_report?: string | undefined;
 };

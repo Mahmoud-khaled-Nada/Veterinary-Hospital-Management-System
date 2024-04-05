@@ -40,4 +40,33 @@ class PatientProcessController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function bookingFinished(Request $request)
+    {
+        try {
+            $request->validate([
+                'booking_id' => 'required|exists:patient_bookings,id',
+                'booking_status' => 'required',
+            ]);
+
+            $booking = PatientBooking::findOrFail($request->input('booking_id'));
+
+            $medications = $request->post('medications');
+            $doctorReport = $request->post('doctor_report');
+
+            if ($medications || $doctorReport) {
+                $booking->update([
+                    'medications' => $medications,
+                    'doctor_report' => $doctorReport,
+                    'booking_status' => 'done',
+                ]);
+                return response()->json(['message' => 'Booking finished successfully'], 200);
+            }
+            $booking->update(['booking_status' => 'done']);
+
+            return response()->json(['message' => 'Booking finished successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }

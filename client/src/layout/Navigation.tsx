@@ -3,6 +3,7 @@ import { FaDog } from "react-icons/fa6";
 import { FaUserDoctor } from "react-icons/fa6";
 import { GrUserNew } from "react-icons/gr";
 import { BiSolidCategoryAlt } from "react-icons/bi";
+import { TbReportAnalytics } from "react-icons/tb";
 
 export const ListLinkes: navigateListType[] = [
   {
@@ -24,5 +25,10 @@ export const ListLinkes: navigateListType[] = [
     name: "Doctor",
     path: "/doctor",
     icon: <FaUserDoctor size={20} />,
+  },
+  {
+    name: "Reports",
+    path: "/reports",
+    icon: <TbReportAnalytics size={20} />,
   },
 ];

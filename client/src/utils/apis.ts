@@ -12,6 +12,7 @@ import {
   AppointmentsDetails,
   BookingNotificationsDetails,
   TransferToDoctorParams,
+  DoctorReportParams,
 } from "./types";
 import { prefix } from "./constant";
 
@@ -88,7 +89,7 @@ export const getDoctorsAppointmentsAPI = () => API.get(`${prefix.DOCTORS}/get/ap
 export const getPatientsQueuetoDoctorAPI = () => API.get(`${prefix.DOCTORS}/patients-queue`);
 export const getCurrentPatientsToDoctorAPI = () => API.get(`${prefix.DOCTORS}/current-patients`);
 
-//Appointments 
+//Appointments
 
 export const addDoctorAppointmentsAPI = (id: number, data: AppointmentsParam) =>
   API.post(`${prefix.DOCTORS}/create/${id}/appointments`, data);
@@ -119,7 +120,10 @@ export const readBookingNotificationsAPI = (id: string) =>
 
 ///booking/patients-notifications
 
-// process/transfer-to-doctor
+// process
 
 export const processTransferToDoctorAPI = (data: TransferToDoctorParams) =>
   API.post(`/process/transfer-to-doctor`, data);
+
+export const bookingFinishedAPI = (data: DoctorReportParams) =>
+  API.patch(`/process/booking-finished-done`, data);

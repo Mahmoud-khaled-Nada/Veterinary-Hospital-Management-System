@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { changeStatusBooking } from "@/redux/booking/bookingSlice";
+import { getPatientsQueuetoDoctorThunk } from "@/redux/doctor/doctorThunk";
 import { getbookingNotificationsThunk } from "@/redux/notification/notificationThunk";
 import { AppDispatch } from "@/redux/store";
 import {
@@ -96,30 +98,31 @@ export const getPatientsBookingAllOrBySearch = (search?: string, page?: number) 
 
   return query;
 };
-export const fetchAllBookingsQuery = (searchTerm: string, page: number) => {
-  const query = useQuery({
-    queryKey: ["getPatientBooking", searchTerm, page],
-    queryFn: async () => {
-      try {
-        if (searchTerm) {
-          const response = await getPatientBookingSearchAPI(searchTerm);
-          return response.data;
-        } else {
-          const response = await getPatientBookingAPI(page!);
-          return response.data;
-        }
-      } catch (error) {
-        console.error("Error fetching bookings:", error);
-        throw error;
-      }
-    },
-  });
+// export const fetchAllBookingsQuery = (searchTerm: string, page: number) => {
+//   const query = useQuery({
+//     queryKey: ["getPatientBooking", searchTerm, page],
+//     queryFn: async () => {
+//       try {
+//         if (searchTerm) {
+//           const response = await getPatientBookingSearchAPI(searchTerm);
+//           return response.data;
+//         } else {
+//           const response = await getPatientBookingAPI(page!);
+//           return response.data;
+//         }
+//       } catch (error) {
+//         console.error("Error fetching bookings:", error);
+//         throw error;
+//       }
+//     },
+//   });
 
-  return query;
-};
+//   return query;
+// };
 
-export const processTransferToDoctorMutation = () => {
-  const mutationKey = ["TransferToDoctor"];
+export const processTransferToDoctorMutation = (id: number) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const mutationKey = ["processTransferToDoctorAPI"];
   const mutation = useMutation({
     mutationKey,
     mutationFn: async (data: TransferToDoctorParams) => {
@@ -131,6 +134,8 @@ export const processTransferToDoctorMutation = () => {
       }
     },
     onSuccess: (res) => {
+      dispatch(changeStatusBooking(id));
+      dispatch(getPatientsQueuetoDoctorThunk());
       success(res.data.message);
     },
     onError: (err) => {

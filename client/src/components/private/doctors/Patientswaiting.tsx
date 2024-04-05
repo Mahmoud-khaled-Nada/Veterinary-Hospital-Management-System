@@ -7,11 +7,8 @@ const Patientswaiting = () => {
   const dispatch = useDispatch<AppDispatch>();
   const patientsQueue = useSelector((state: RootState) => state.doctor.patientsQueue);
 
-
   useEffect(() => {
-    if (patientsQueue.length === 0) {
-      dispatch(getPatientsQueuetoDoctorThunk()).unwrap();
-    }
+    dispatch(getPatientsQueuetoDoctorThunk())
   }, []);
 
   return (

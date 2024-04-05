@@ -48,7 +48,12 @@ Route::group(['prefix' => 'doctors'], function () {
     Route::delete('/delete/{id}/appointment', [DoctorsController::class, 'deleteAppointment']);
     // patient queuebased on day
     Route::get('/patients-queue', [DoctorsController::class, 'patientsQueue']);
-    Route::get('/current-patients', [DoctorsController::class, 'currentPatients']);
+    // Route::get('/current-patients', [DoctorsController::class, 'currentPatients']);
+});
+
+Route::group(['prefix' => 'process'], function () {
+    Route::post('/transfer-to-doctor', [PatientProcessController::class, 'transferToDoctor']);
+    Route::patch('/booking-finished-done' , [PatientProcessController::class, 'bookingFinished']);
 });
 
 Route::group(['prefix' => 'administratives'], function () {
@@ -77,13 +82,8 @@ Route::group(['prefix' => 'bookings'], function () {
 
 
 
-Route::group(['middleware' => 'auth:api','prefix' => 'notifications'], function () {
+Route::group(['middleware' => 'auth:api', 'prefix' => 'notifications'], function () {
     Route::get('/booking/patients-notifications', [NotificationController::class, 'bookingPatientsNotifications']);
     // Route::get('/unread/booking/patients-notifications', [NotificationController::class, 'unreadBookingPatientsNotifications']);
     Route::post('/read/booking/patients-notifications/{id}', [NotificationController::class, 'readBookingPatientsNotifications']);
-});
-
-
-Route::group(['prefix' => 'process'], function () {
-    Route::post('/transfer-to-doctor', [PatientProcessController::class, 'transferToDoctor']);
 });

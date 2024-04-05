@@ -1,28 +1,24 @@
-import { PatientsBookingDetails } from "@/utils/types";
 import { useEffect, useState } from "react";
 import SearchInputField from "@/components/common/inputs/SearchInputField";
-import RenderPaginationButtons from "@/components/common/button/renderPaginationButtons";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { setBookings } from "@/redux/booking/bookingSlice";
 import BookingActionModel from "./BookingActionModel";
-import { fetchAllBookingsQuery } from "../actions";
+import { getPatientsBookingThunk, searchOnPatienstBookingThunk } from "@/redux/booking/bookingThunk";
+import RenderPaginationButtons from "@/components/common/button/renderPaginationButtons";
 
 const ShowPatientsBookingTable = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [page, setPage] = useState<number>(1);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [sendId, setSendId] = useState<number | undefined>(undefined);
+  const [page, setPage] = useState<number>(1);
 
-  const bookings = useSelector((state: RootState) => state.booking.bookings);
+  const { bookings, isLoading, lastPage } = useSelector((state: RootState) => state.booking);
 
-  const { data, isSuccess, isLoading } = fetchAllBookingsQuery(searchTerm, page);
   useEffect(() => {
-    if (isSuccess && !searchTerm) {
-      dispatch(setBookings(data?.data || []));
-    }
-  }, [isSuccess, data, searchTerm]);
+    if (searchTerm) dispatch(searchOnPatienstBookingThunk(searchTerm));
+    else dispatch(getPatientsBookingThunk(page));
+  }, [dispatch, page, searchTerm]);
 
   return (
     <>
@@ -100,7 +96,7 @@ const ShowPatientsBookingTable = () => {
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {bookings.length > 0 &&
-                      bookings?.map((row: PatientsBookingDetails, index) => (
+                      bookings?.map((row, index) => (
                         <tr key={index}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                             {index + 1}
@@ -121,13 +117,13 @@ const ShowPatientsBookingTable = () => {
                             {row.booking_date}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                            {row.booking_status === "waiting" ? (
-                              <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium border border-teal-500 text-teal-500">
-                                {row.booking_status}
-                              </span>
-                            ) : (
+                            {row.booking_status === "in_progress" ? (
                               <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium border border-blue-600 text-blue-600 dark:text-blue-500">
                                 in progress
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium border border-teal-500 text-teal-500">
+                                waiting
                               </span>
                             )}
                           </td>
@@ -153,7 +149,7 @@ const ShowPatientsBookingTable = () => {
               </div>
               <RenderPaginationButtons
                 isLoading={isLoading}
-                numberPages={data?.last_page || 1}
+                numberPages={lastPage || 1}
                 onClick={(index: number) => setPage(index)}
               />
             </div>

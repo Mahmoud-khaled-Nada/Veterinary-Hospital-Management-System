@@ -23,8 +23,14 @@ export const doctorSlice = createSlice({
       state.appointments = state.appointments.filter((appoint) => appoint.id !== id);
     },
     getCurrentPatient: (state) => {
-     const data = state.patientsQueue.find((patient) => patient.booking_status);
-     console.log(data);
+      const data = state.patientsQueue.find((patient) => patient.booking_status);
+      console.log(data);
+    },
+    getNextPatient: (state, action) => {
+      const id = action.payload;
+      const exists = state.patientsQueue.find((patient) => patient.booking_id === id);
+      if (!exists) return;
+      state.patientsQueue = state.patientsQueue.filter((patient) => patient.booking_id !== id);
     },
   },
 
@@ -40,8 +46,9 @@ export const doctorSlice = createSlice({
       .addCase(getPatientsQueuetoDoctorThunk.fulfilled, (state, action) => {
         console.log("getPatientsQueuetoDoctorThunk.fulfilled");
         state.patientsQueue = action.payload;
-      })
+      }),
 });
 
-export const { addNewAppointments, deleteAppointments, getCurrentPatient } = doctorSlice.actions;
+export const { addNewAppointments, deleteAppointments, getCurrentPatient, getNextPatient } =
+  doctorSlice.actions;
 export default doctorSlice.reducer;

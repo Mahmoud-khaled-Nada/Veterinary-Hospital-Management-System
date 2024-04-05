@@ -4,8 +4,10 @@ import { GiConfirmed } from "react-icons/gi";
 import ContenerForm from "@/components/common/main-form/ContenerForm";
 import { toast } from "react-toastify";
 import { processTransferToDoctorMutation } from "../actions";
-// import { useDispatch } from "react-redux";
-// import { AppDispatch } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { getPatientsQueuetoDoctorThunk } from "@/redux/doctor/doctorThunk";
+import { changeStatusBooking } from "@/redux/booking/bookingSlice";
 // import { deleteBookingById } from "@/redux/booking/bookingSlice";
 interface ModelProps {
   openModal: boolean;
@@ -15,9 +17,7 @@ interface ModelProps {
 
 const BookingActionModel: FC<ModelProps> = ({ openModal, setOpenModal, sendId }) => {
   const [changeStatus, setChangeStatus] = useState<string>("");
-  // const dispatch = useDispatch<AppDispatch>();
-  const mutation = processTransferToDoctorMutation();
-
+  const mutation = processTransferToDoctorMutation(sendId!);
   const handleTransferSubmit = () => {
     switch (true) {
       case !sendId:
@@ -38,7 +38,6 @@ const BookingActionModel: FC<ModelProps> = ({ openModal, setOpenModal, sendId })
       }
     }
   };
-  // if (mutation.isSuccess) dispatch(deleteBookingById(sendId));
   return (
     <>
       {openModal && (

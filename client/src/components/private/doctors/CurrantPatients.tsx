@@ -1,16 +1,33 @@
-import { getCurrentPatientsToDoctorAPI } from "@/utils/apis";
-import { useQuery } from "@tanstack/react-query";
 import staticDog from "@/assets/images/static-dog.jpg";
+import { getPatientsQueuetoDoctorThunk } from "@/redux/doctor/doctorThunk";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import DoctorReportToPatientMode from "./view/DoctorReportToPatientMode";
+import { bookingFinishedMutation } from "./actions";
 const CurrantPatients = () => {
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["getCurrentPatientsToDoctorAPI"],
-    queryFn: async () => {
-      const response = await getCurrentPatientsToDoctorAPI();
-      return response.data;
-    },
-  });
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [bookingId, setBookingId] = useState<number | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const patient = useSelector((state: RootState) => state.doctor.patientsQueue[0]);
+  useEffect(() => {
+    dispatch(getPatientsQueuetoDoctorThunk());
+    // .unwrap()
+    // .then((data) => setPatient(data[0]));
+  }, []);
 
-  console.log(data);
+  const mutation = bookingFinishedMutation(bookingId!);
+
+  const isCaseDone = (id: number) => {
+    if (!id) return;
+    setBookingId(id)
+    mutation.mutateAsync({
+      booking_id: id,
+      booking_status: "done",
+    });
+  };
+
+
   return (
     <div className="card card-side bg-base-100 shadow-xl">
       <figure>
@@ -27,36 +44,30 @@ const CurrantPatients = () => {
               </tr>
             </thead>
             <tbody>
-              {isLoading
-                ? "Loading..."
-                : data && (
-                    <tr className="bg-base-200 text-white">
-                      <td>{data.owner_name}</td>
-                      <td>{data.animal_name}</td>
-                      <td>{data.animal_type}</td>
-                    </tr>
-                  )}
+              {patient && (
+                <tr className="bg-base-200 text-white">
+                  <td>{patient.owner_name}</td>
+                  <td>{patient.animal_name}</td>
+                  <td>{patient.animal_type}</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
         <div className="absolute top-3/4 left-1/2">
-          <button
-            className="btn bg-blue-600 text-white mr-2"
-            //   onClick={() => setOpenModal(true)}
-          >
+          <button className="btn bg-blue-600 text-white mr-2" onClick={() => setOpenModal(true)}>
             Add Report
           </button>
-          <button
-            className="btn bg-emerald-600 text-white"
-            //   onClick={() => mutation.mutate(query.data?.id)}
-          >
+          <button className="btn bg-emerald-600 text-white" onClick={() => isCaseDone(patient.booking_id)}>
             Done
           </button>
-          {/* <AddPatientReport
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          sendId={query.data?.id}
-        /> */}
+          {patient && (
+            <DoctorReportToPatientMode
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              bookingId={patient?.booking_id}
+            />
+          )}
         </div>
       </div>
     </div>

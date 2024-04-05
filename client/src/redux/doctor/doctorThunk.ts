@@ -23,4 +23,3 @@ export const getPatientsQueuetoDoctorThunk = createAsyncThunk("fetch/patients/qu
   const response = await getPatientsQueuetoDoctorAPI();
   return response.data;
 });
-

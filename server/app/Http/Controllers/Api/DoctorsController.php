@@ -176,8 +176,10 @@ class DoctorsController extends Controller
         $patients = DB::table('patient_bookings')
             ->join('patients', 'patients.id', '=', 'patient_bookings.patient_id')
             ->where('patient_bookings.user_id', '=', $doctor)
+            ->where('patient_bookings.booking_status', '=', "in_progress")
             ->whereDate('patient_bookings.booking_date', '=', $currentDate)
             ->select(
+                'patient_bookings.id as booking_id',
                 'patient_bookings.booking_status',
                 'patient_bookings.patient_id',
                 'patient_bookings.user_id',
@@ -193,26 +195,26 @@ class DoctorsController extends Controller
         return response()->json($patients, 200);
     }
 
-    public function currentPatients()
-    {
-        $doctor = Auth::id();
-        $currentDate = Carbon::now()->toDateString();
+    // public function currentPatients()
+    // {
+    //     $doctor = Auth::id();
+    //     $currentDate = Carbon::now()->toDateString();
 
-        $patient = DB::table('patient_bookings')
-            ->join('patients', 'patients.id', '=', 'patient_bookings.patient_id')
-            ->where('patient_bookings.user_id', '=', $doctor)
-            ->where('patient_bookings.booking_status', '=', "done")
-            ->whereDate('patient_bookings.booking_date', '=', $currentDate)
-            ->select(
-                'patient_bookings.patient_id',
-                'patient_bookings.user_id as doctor_id',
-                'patients.owner_name',
-                'patients.animal_name',
-                'patients.animal_type'
-            )
-            ->orderBy('patient_bookings.created_at')
-            ->first();
+    //     $patient = DB::table('patient_bookings')
+    //         ->join('patients', 'patients.id', '=', 'patient_bookings.patient_id')
+    //         ->where('patient_bookings.user_id', '=', $doctor)
+    //         ->where('patient_bookings.booking_status', '=', "in_progress")
+    //         ->whereDate('patient_bookings.booking_date', '=', $currentDate)
+    //         ->select(
+    //             'patient_bookings.patient_id',
+    //             'patient_bookings.user_id as doctor_id',
+    //             'patients.owner_name',
+    //             'patients.animal_name',
+    //             'patients.animal_type'
+    //         )
+    //         ->orderBy('patient_bookings.created_at')
+    //         ->first();
 
-        return response()->json($patient, 200);
-    }
+    //     return response()->json($patient, 200);
+    // }
 }
