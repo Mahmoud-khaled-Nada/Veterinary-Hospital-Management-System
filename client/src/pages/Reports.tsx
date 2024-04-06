@@ -9,7 +9,7 @@ const Reports = () => {
 
   const tabs = [
     {
-      title: "Show finished bookings",
+      title: "Show bookings",
       icon: <Bs1CircleFill />,
       content: <ShowBooking />,
     },

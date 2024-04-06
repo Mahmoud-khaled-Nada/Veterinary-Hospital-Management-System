@@ -4,6 +4,7 @@ import ContenerForm from "@/components/common/main-form/ContenerForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type ReportQueryParams = {
+  statue: string;
   from: string;
   to: string;
 };
@@ -19,14 +20,16 @@ const ShowBooking = () => {
         <div className="grid grid-cols-1 gap-4 text-center sm:grid-cols-3">
           <div className="text-left">
             <label htmlFor="permission" className="block text-sm font-medium mb-2 dark:text-white">
-            <span className=" text-green-500">ddddd</span>
-              Choose permission
+              Select booking status
             </label>
-            <select id="permission" className="select select-bordered w-full">
-              <option disabled>choose</option>
-              <option disabled>choose</option>
-              <option disabled>choose</option>
-              <option disabled>choose</option>
+            <select
+              className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+              {...register("statue")}
+            >
+              <option value="done">Done</option>
+              <option value="waiting">Waiting</option>
+              <option value="in_progress">In progress</option>
+              <option value="cancel">Cancel</option>
             </select>
           </div>
           <InputField title="From Date" register={register} name="from" typeInput="date" />

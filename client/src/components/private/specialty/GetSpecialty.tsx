@@ -7,16 +7,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 function GetSpecialty() {
-  const specialties = useSelector(
-    (state: RootState) => state.specialty.specialties
-  );
-  const isLoading = useSelector(
-    (state: RootState) => state.specialty.isLoading
-  );
+  const specialties = useSelector((state: RootState) => state.specialty.specialties);
+  const isLoading = useSelector((state: RootState) => state.specialty.isLoading);
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [selectedIdDelete, setSelectedIdDelete] = useState<number| undefined>(undefined);
+  const [selectedIdDelete, setSelectedIdDelete] = useState<number | undefined>(undefined);
   const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [selectedIdEdit, setSelectedIdEdit] = useState<number| undefined>(undefined);
+  const [selectedIdEdit, setSelectedIdEdit] = useState<number | undefined>(undefined);
 
   const handleDeleteClick = (itemId: number) => {
     setOpenModalDelete(true);
@@ -34,7 +30,7 @@ function GetSpecialty() {
         ) : (
           <table className="table">
             <thead>
-              <tr>
+              <tr className="dark:text-gray-300">
                 <th>#</th>
                 <th>Category Name</th>
                 <th>Edit</th>
@@ -42,32 +38,25 @@ function GetSpecialty() {
               </tr>
             </thead>
             <tbody>
-              {specialties?.map((item, index: number) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <div className="badge badge-accent">
-                      {item.specialty_name}
-                    </div>
-                  </td>
-                  <td>
-                    <button
-                      className="text-blue-600 text-lg"
-                      onClick={() => handleEditClick(item.id)}
-                    >
-                      <FiEdit />
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="text-red-600 text-lg"
-                      onClick={() => handleDeleteClick(item.id)}
-                    >
-                      <RiDeleteBin6Line />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {specialties.length > 0 &&
+                specialties?.map((item, index: number) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>
+                      <div className="badge badge-accent">{item.specialty_name}</div>
+                    </td>
+                    <td>
+                      <button className="text-blue-600 text-lg" onClick={() => handleEditClick(item.id)}>
+                        <FiEdit />
+                      </button>
+                    </td>
+                    <td>
+                      <button className="text-red-600 text-lg" onClick={() => handleDeleteClick(item.id)}>
+                        <RiDeleteBin6Line />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         )}

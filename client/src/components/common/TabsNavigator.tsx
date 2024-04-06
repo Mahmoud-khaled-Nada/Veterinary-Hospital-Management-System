@@ -22,9 +22,9 @@ const TabsNavigator: FC<Props> = ({ tabContent }) => {
           <li key={index} className="me-2">
             <button
               type="button"
-              className={`inline-flex items-center justify-center  p-3 ${
+              className={`inline-flex items-center justify-center p-3 ${
                 index === active
-                  ? "border-b-2 border-blue-600  focus:text-gray-200 dark:border-blue-600 bg-gray-800 group"
+                  ? "border-b-2 border-blue-600 dark:focus:text-gray-200 dark:border-blue-600 dark:bg-gray-800 group"
                   : "hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
               }`}
               onClick={() => setActive(index)}

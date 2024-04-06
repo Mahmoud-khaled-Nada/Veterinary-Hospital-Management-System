@@ -5,25 +5,22 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { UpdateSpecialtyAction } from "./actions/CreateSpecialtyAction";
 import ContenerForm from "@/components/common/main-form/ContenerForm";
+import GeneralFormModelContainer from "@/components/common/models/GeneralFormModelContainer";
 interface ModelProps {
   openModalEdit: boolean;
   setOpenModalEdit: React.Dispatch<React.SetStateAction<boolean>>;
   sendIdEdit: number | undefined;
 }
 
-const EditSpecialty: FC<ModelProps> = ({
-  openModalEdit,
-  setOpenModalEdit,
-  sendIdEdit,
-}) => {
-  const specialties = useSelector(
-    (state: RootState) => state.specialty.specialties
-  );
+const EditSpecialty: FC<ModelProps> = ({ openModalEdit, setOpenModalEdit, sendIdEdit }) => {
+  const specialties = useSelector((state: RootState) => state.specialty.specialties);
   const [updateValue, setUpdateValue] = useState("");
 
-  const mutation = UpdateSpecialtyAction(sendIdEdit!, () =>
-    setOpenModalEdit(false)
-  );
+  useEffect(() => {
+    if (sendIdEdit) handelSpecialtySelected(sendIdEdit);
+  }, [sendIdEdit]);
+
+  const mutation = UpdateSpecialtyAction(sendIdEdit!, () => setOpenModalEdit(false));
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,70 +32,27 @@ const EditSpecialty: FC<ModelProps> = ({
     setUpdateValue(result!.specialty_name);
   };
 
-  useEffect(() => {
-    if (sendIdEdit) handelSpecialtySelected(sendIdEdit);
-  }, [sendIdEdit]);
-
   return (
     <>
       {openModalEdit && (
-        <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-10 z-50 flex justify-center items-center">
-            <ContenerForm>
-            <div className="flex items-start gap-4">
-              <span className="text-red-600">
-                <GiConfirmed className="h-6 w-6" />
-              </span>
-              <div className="flex-1">
-                <strong className="block font-medium text-white">
-                  Please confirm the edit operation.
-                </strong>
-              </div>
-              <button
-                className="text-gray-300 transition hover:text-gray-400"
-                onClick={() => {
-                  setOpenModalEdit(false);
-                  setUpdateValue("");
-                }}
-              >
-                <span className="sr-only">Dismiss popup</span>
-                <IoClose className="h-6 w-6" />
-              </button>
+        <>
+          <GeneralFormModelContainer
+            onClose={() => setOpenModalEdit(false)}
+            title="Please confirm the edit operation."
+            onSubmit={handleSubmit}
+          >
+            <div className="col-span-6">
+              <label htmlFor="Name" className="block text-sm font-medium text-gray-400">
+                Specialization Name
+              </label>
+              <input
+                value={updateValue || ""}
+                onChange={(e) => setUpdateValue(e.target.value)}
+                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+              />
             </div>
-
-            <form
-              method="dialog"
-              className="mt-8 grid grid-cols-6 gap-6"
-              onSubmit={handleSubmit}
-            >
-              <div className="col-span-6">
-                <label
-                  htmlFor="Name"
-                  className="block text-sm font-medium text-gray-400"
-                >
-                  Specialization Name
-                </label>
-                <input
-                  value={updateValue || ""}
-                  onChange={(e) => setUpdateValue(e.target.value)}
-                  className="block w-full rounded-lg border-gray-200 p-3 text-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
-                />
-              </div>
-              <button type="submit" className="btn btn-accent">
-                Edit
-              </button>
-              <button
-                type="button"
-                className="btn"
-                onClick={() => {
-                  setOpenModalEdit(false);
-                  setUpdateValue("");
-                }}
-              >
-                Close
-              </button>
-            </form>
-            </ContenerForm>
-        </div>
+          </GeneralFormModelContainer>
+        </>
       )}
     </>
   );

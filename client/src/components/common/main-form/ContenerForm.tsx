@@ -6,8 +6,11 @@ type Props = {
 };
 //  bg-white
 const ContenerForm: FC<Props> = ({ children, style }) => {
-  return <div className={`border rounded-xl shadow-sm p-6 dark:bg-slate-800 border-gray-700 ${style}`}>{children}</div>;
-
+  return (
+    <div className={` border rounded-xl shadow-sm p-6 dark:bg-slate-800 dark:border-gray-700 ${style}`}>
+      {children}
+    </div>
+  );
 };
 
 export default ContenerForm;

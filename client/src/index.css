@@ -9,18 +9,6 @@
     box-sizing: border-box;
 }
 
-body{
-    background-color: #0f172a;
-    /* background-color: #fff; */
-}
-
-body::-webkit-scrollbar {
-    width: 10px;
-  }
-  body::-webkit-scrollbar-thumb {
-    background-color: rgb(125, 125, 125);
-    border-radius: 5px;
-  }
   
   ::-webkit-scrollbar {
     display: none;

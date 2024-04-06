@@ -5,7 +5,7 @@ import NotificationsHeader from "@/components/common/notifications/Notifications
 
 const Header = () => {
   return (
-    <header className="sticky top-0 bg-headerBody z-30 md:flex h-14 items-center border-b-2 border-layoutBorder gap-4 px-4">
+    <header className="sticky top-0 z-50 bg-gray-50 md:flex h-14 items-center border-b-2 border-gray-300 dark:bg-dark_header_body dark:border-dark_border gap-4 px-4">
       <button className="md:hidden">
         <HiOutlineChevronLeft className="h-4 w-4" />
         <span className="sr-only">Toggle sidebar</span>

@@ -16,7 +16,7 @@ const formatterPlaceholder = (value: string) => value.toLowerCase();
 const InputFieldWithError: FC<Props<any>> = ({ title, name, register, errors, typeInput, icon: Icon }) => {
   return (
     <div className="text-left">
-      <label htmlFor={name.toString()} className="block text-sm font-medium mb-2 text-white">
+      <label htmlFor={name.toString()} className="block text-sm font-medium mb-2 text-gray-700 dark:text-white">
         {title}
       </label>
       <div className="relative">
