@@ -4,7 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-
 return new class extends Migration
 {
     /**
@@ -17,11 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('phone')->nullable();
             $table->string('password');
-            $table->boolean('is_doctor')->default(false);
-            $table->enum('permission', ['sub_admin', 'admin', 'doctor', 'receptionist', 'user'])->default('user');
-            $table->string('extra_info')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
