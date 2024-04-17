@@ -6,6 +6,7 @@ use App\Helpers\GeneralValidation;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\User;
+use App\Notifications\SendCreateNewBookingNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,9 +34,8 @@ class BookingController extends Controller
 
             $booking = Booking::create($validatedData);
 
-
-            // $user = User::find($userId);
-            // $user->notify(new SendPatientCreatedNotification($user->id, $createBooking));
+            $user = User::find($validatedData['user_id']);
+            $user->notify(new SendCreateNewBookingNotification($booking));
 
             return response()->json(['message' => 'Booking created successfully'], 200);
         } catch (\Exception $e) {

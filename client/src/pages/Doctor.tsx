@@ -1,12 +1,11 @@
 import { useState } from "react";
 import TabsNavigator from "@/components/common/TabsNavigator";
 import { Bs1CircleFill, Bs2CircleFill, Bs3CircleFill } from "react-icons/bs";
-import DoctorsAppointments from "@/components/private/doctors/DoctorsAppointments";
-import NotificationsList from "@/components/common/notifications/NotificationsList";
+import Appointment from "@/components/doctors/Appointment/Appointment";
+import NewBookingNotification from "@/components/doctors/NewBookingNotification";
 import { MdNotificationsActive } from "react-icons/md";
-import Patientswaiting from "@/components/private/doctors/Patientswaiting";
-import CurrantPatients from "@/components/private/doctors/CurrantPatients";
-
+import PatientsTodayList from "@/components/doctors/patients/PatientsTodayList";
+import CurrantPatients from "@/components/doctors/patients/CurrantPatients";
 const Doctor = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
 
@@ -14,17 +13,17 @@ const Doctor = () => {
     {
       title: "Notifications",
       icon: <MdNotificationsActive />,
-      content: <NotificationsList />,
+      content: <NewBookingNotification />,
     },
     {
       title: "Add appointments",
       icon: <Bs1CircleFill />,
-      content: <DoctorsAppointments />,
+      content: <Appointment />,
     },
     {
-      title: "Patient waiting",
+      title: "Waiting list ",
       icon: <Bs2CircleFill />,
-      content: <Patientswaiting />,
+      content: <PatientsTodayList />,
     },
     {
       title: "Currant patient",

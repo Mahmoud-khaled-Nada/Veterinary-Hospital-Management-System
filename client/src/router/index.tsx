@@ -1,17 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
 import { GuestLayout, DefaultLayout } from "../layout";
-import PrivateRoute from "./PrivateRoute";
-import { Doctor, EditPage, Home, Login, Reception, Reports, Specialty } from "@/pages";
-import { CreateBooking } from "@/components/private/reception";
+import AuthenticationRouter from "./guard/AuthenticationRouter";
+import { Doctor, Home, Login, Reception, Reports, Specialty } from "@/pages";
 import Employees from "@/pages/Employees";
+import CreateBooking from "@/components/reception/booking/CreateBooking";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <PrivateRoute>
+      <AuthenticationRouter>
         <DefaultLayout />
-      </PrivateRoute>
+      </AuthenticationRouter>
     ),
     children: [
       {
@@ -23,14 +23,6 @@ const router = createBrowserRouter([
         element: <Specialty />,
       },
       {
-        path: "/reception",
-        element: <Reception />,
-      },
-      {
-        path: "/reception/booking/:id",
-        element: <CreateBooking />,
-      },
-      {
         path: "/employees",
         element: <Employees />,
       },
@@ -39,12 +31,16 @@ const router = createBrowserRouter([
         element: <Doctor />,
       },
       {
-        path: "/reports",
-        element: <Reports />,
+        path: "/reception",
+        element: <Reception />,
       },
       {
-        path: "/test",
-        element: <EditPage />,
+        path: "/create-booking/:id",
+        element: <CreateBooking />,
+      },
+      {
+        path: "/reports",
+        element: <Reports />,
       },
     ],
   },

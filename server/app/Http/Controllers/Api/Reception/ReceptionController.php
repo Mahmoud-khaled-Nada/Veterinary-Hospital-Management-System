@@ -23,13 +23,13 @@ class ReceptionController extends Controller
     
             if ($validatedData['booking_status'] === 'cancel') {
                 $booking->update(['booking_status' => 'cancel']);
-                return response()->json(['message' => 'Booking canceled successfully'], 200);
+                return response()->json([$booking, 'message' => 'Booking canceled successfully'], 200);
             }
     
             if ($validatedData['booking_status'] === 'in_progress') {
                 $booking->update(['booking_status' => 'in_progress']);
-                DB::table('booking_queue')->insert(['booking_id' => $booking->id]);
-                return response()->json(['message' => 'Booking transferred to doctor successfully'], 200);
+                DB::table('booking_queues')->insert(['booking_id' => $booking->id]);
+                return response()->json([$booking,'message' => 'Booking transferred to doctor successfully'], 200);
             }
             
             return response()->json(['message' => 'Invalid booking status'], 400);

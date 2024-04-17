@@ -39,8 +39,6 @@ class DoctorController extends Controller
                 'phone' => ['nullable', 'string', 'between:2,50'],
                 'password' => ['nullable', 'string', 'min:3'],
                 'permission' => ['nullable', 'string', 'max:255'],
-                'extra_info' => ['nullable', 'string'],
-                'is_doctor' => ['nullable', 'boolean'],
                 'specialty_id' => ['nullable', 'exists:specialties,id'],
             ]);
 
@@ -48,16 +46,17 @@ class DoctorController extends Controller
                 $validatedData['password'] = Hash::make($validatedData['password']);
             }
 
-            $user->update($validatedData);
+           
 
 
-            if (isset($validatedData['is_doctor']) && isset($validatedData['specialty_id'])) {
+            if (isset($validatedData['specialty_id'])) {
                 $user->doctor()->updateOrCreate(
                     ['user_id' => $user->id],
                     ['specialty_id' => $validatedData['specialty_id']]
                 );
             }
 
+            $user->update($validatedData);
             return response()->json(['message' => 'Doctor updated successfully'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to update doctor'], 500);

@@ -1,129 +1,99 @@
 import axios from "axios";
 import { getCookie } from "@/utils/hook/useCookies";
-import {
-  UserLoginParams,
-  CreatePatientDetails,
-  CreateSpecialtyType,
-  PatientBookingParams,
-  PatientsBookingDetails,
-  UserDetails,
-  AddDoctorParams,
-  AppointmentsParam,
-  AppointmentsDetails,
-  BookingNotificationsDetails,
-  TransferToDoctorParams,
-  DoctorReportParams,
-} from "./types";
 import { prefix } from "./constant";
+import {
+  AppointmentsParam,
+  BookingActionParams,
+  BookingDetails,
+  BookingParams,
+  CreatePatientParams,
+  DoctorDetails,
+  DoctorReportParams,
+  EditDoctorParams,
+  SpecialtyParam,
+  User,
+  UserParams,
+} from "./types";
 
-const API_URL_DEV = import.meta.env.VITE_API_URL_DEV;
-const API = axios.create({
-  baseURL: API_URL_DEV,
+const { VITE_API_URL_DEV } = import.meta.env;
+
+const api = axios.create({
+  baseURL: VITE_API_URL_DEV,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-API.interceptors.request.use(
+api.interceptors.request.use(
   async (config) => {
     const token = getCookie("access_token");
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
+    token ? (config.headers["Authorization"] = `Bearer ${token}`) : (location.href = "/login");
     return config;
   },
   (error) => {
+    location.href = "/login";
     return Promise.reject(error);
   }
 );
 
-// Login
+//? start end-point apis
 
-export const postLoginUserAPI = (data: UserLoginParams) => API.post("/auth/login", data);
+//** start user actions **
+export const postLoginUserAPI = (data: UserParams) => api.post("/auth/login", data);
+export const postAddUserAPI = (data: UserParams) => api.post("/auth/create-user", data);
+export const getUserProfileAPI = () => api.get<User>("/profile");
+export const logoutUserAPI = () => api.post("/logout");
 
-export const getUserProfileAPI = () => API.get<UserDetails>("/profile");
+//** start Specialty actions **
+export const createSpecialtyAPI = (data: SpecialtyParam) => api.post(`${prefix.SPECIALTY}`, data);
 
-export const logoutUserAPI = () => API.post("/logout");
-// user add
+export const getSpecialtyAPI = () => api.get(`${prefix.SPECIALTY}`);
 
-export const postAddUserAPI = (data: UserLoginParams) => API.post("/auth/create-user", data);
+export const updateSpecialtyAPI = (id: number, data: SpecialtyParam) =>
+  api.patch(`${prefix.SPECIALTY}/${id}`, data);
 
-//  speciality
+export const deleteSpecialtyAPI = (id: number) => api.delete(`${prefix.SPECIALTY}/${id}`);
 
-// get employees as doctor
+//** start Employees actions **
+export const DoctorsAPI = () => api.get(`doctor`);
 
-export const getUserAsDoctorAPI = () => API.get<UserDetails[]>(`/${prefix.DOCTORS}`);
+export const updateDoctorsAPI = (id: number, data: EditDoctorParams) =>
+  api.patch(`doctor/update/${id}`, data);
 
-export const updateUserasDoctorAPI = (id: number, data: AddDoctorParams) =>
-  API.patch(`/${prefix.DOCTORS}/update/doctor/${id}`, data);
+export const deleteDoctorsAPI = (id: number) => api.delete(`doctor/delete/${id}`);
 
-export const deleteUserasDoctorAPI = (id: number) => API.delete(`/${prefix.DOCTORS}/delete/doctor/${id}`);
+export const AdministrativesAPI = () => api.get<User[]>("/administratives");
+export const deleteAdministrativesAPI = (id: number) => api.delete<User>(`/administratives/delete/${id}`);
 
-// Administratives
-export const getUserAsAdministrativesAPI = () => API.get<UserDetails[]>("/administratives");
+//** start Appointments actions **
+export const addDoctorAppointmentsAPI = (data: AppointmentsParam) => api.post("/appointments/create", data);
 
-export const getSpecialtyAPI = () => API.get(`${prefix.SPECIALTY}`);
+export const doctorAppointmentsAPI = () => api.get<AppointmentsParam[]>("appointments/doctor");
+export const deleteAppointmentAPI = (id: number) => api.delete(`appointments/delete/${id}`);
 
-export const createSpecialtyAPI = (data: CreateSpecialtyType) => API.post(`${prefix.SPECIALTY}`, data);
+export const allAppointmentsAPI = () => api.get("appointments");
 
-export const updateSpecialtyAPI = (id: number, data: CreateSpecialtyType) =>
-  API.patch(`${prefix.SPECIALTY}/${id}`, data);
+//** start patients actions **
 
-export const deleteSpecialtyAPI = (id: number) => API.delete(`${prefix.SPECIALTY}/${id}`);
+export const addPatientAPI = (data: CreatePatientParams) => api.post("patients/create", data);
 
-// patient api
+//** start booking actions **
+export const createBookingAPI = (data: BookingParams) => api.post("/booking/create", data);
 
-export const addPatientAPI = (data: CreatePatientDetails) =>
-  API.post(`${prefix.RECEPTION}/add/patient`, data);
+export const getBookingAPI = (page: number) => api.get(`booking?page=${page}`);
 
-export const getPatientAPI = () => API.get(`${prefix.RECEPTION}/patients`);
+export const bookingSearchAPI = (query: string) => api.get(`/booking/search?query=${query}`);
 
-// export const getPatientByIdAPI = (id: number) =>
-//   API.get(`${prefix.RECEPTION}/patient/${id}`);
+export const transferBookingActionAPI = (data: BookingActionParams) =>
+  api.post("/reception-process/transfer-patient-to-doctor", data);
 
-// doctors
-export const getDoctorsAPI = () => API.get(`${prefix.DOCTORS}`);
+//bookingNotificationsAPI
 
-export const getDoctorsAppointmentsAPI = () => API.get(`${prefix.DOCTORS}/get/appointments`);
-// doctors patients-queue
-export const getPatientsQueuetoDoctorAPI = () => API.get(`${prefix.DOCTORS}/patients-queue`);
-export const getCurrentPatientsToDoctorAPI = () => API.get(`${prefix.DOCTORS}/current-patients`);
+export const bookingNotificationsAPI = () => api.get("/doctor-notifications/new-booking");
+export const readBookingNotificationsAPI = (id: string) => api.post(`/doctor-notifications/read-booking/${id}`);
 
-//Appointments
-
-export const addDoctorAppointmentsAPI = (id: number, data: AppointmentsParam) =>
-  API.post(`${prefix.DOCTORS}/create/${id}/appointments`, data);
-
-export const getDoctorAppointmentsByIdAPI = (id: number) =>
-  API.get<AppointmentsDetails>(`${prefix.DOCTORS}/get-by/${id}/appointment`);
-
-export const deleteAppointmentsByIdAPI = (id: number) =>
-  API.delete(`${prefix.DOCTORS}/delete/${id}/appointment`);
-
-export const addPatientBookingAPI = (data: PatientBookingParams) =>
-  API.post(`${prefix.BOOKINGS}/add/patient/booking`, data);
-
-export const getPatientBookingAPI = (currentPage: number) =>
-  API.get<PatientsBookingDetails>(`${prefix.BOOKINGS}?page=${currentPage}`);
-
-export const getPatientBookingSearchAPI = (query: string) =>
-  API.get(`${prefix.BOOKINGS}/booking/search?query=${query}`);
-
-// export const unreadBookingNotificationsAPI = () =>
-//   API.get<BookingNotificationsDetails>(`${prefix.NOTIFICATIONS}/unread/booking/patients-notifications`);
-
-export const bookingNotificationsAPI = () =>
-  API.get<BookingNotificationsDetails>(`${prefix.NOTIFICATIONS}/booking/patients-notifications`);
-
-export const readBookingNotificationsAPI = (id: string) =>
-  API.post(`${prefix.NOTIFICATIONS}/read/booking/patients-notifications/${id}`);
-
-///booking/patients-notifications
-
-// process
-
-export const processTransferToDoctorAPI = (data: TransferToDoctorParams) =>
-  API.post(`/process/transfer-to-doctor`, data);
+//** start doctors patients-queue actions **
+export const getPatientsQueuetoDoctorAPI = () => api.get("/doctor-process/patients-queue");
 
 export const bookingFinishedAPI = (data: DoctorReportParams) =>
-  API.patch(`/process/booking-finished-done`, data);
+  api.patch("/doctor-process/booking-done", data);

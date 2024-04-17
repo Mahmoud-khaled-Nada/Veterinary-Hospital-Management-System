@@ -29,10 +29,11 @@ class AppointmentsController extends Controller
                 return response()->json(['message' => 'Appointment already exists'], 400);
 
             // Create the appointment
-            $doctor->doctorAppointments()->create($validatedData);
+            $create =   $doctor->doctorAppointments()->create($validatedData);
 
             // Return response
             return response()->json([
+                $create,
                 'message' => 'Appointment created successfully',
             ], 200);
         } catch (\Exception $e) {
@@ -47,7 +48,11 @@ class AppointmentsController extends Controller
                 ->join('doctors', 'doctors.user_id', '=', 'users.id')
                 ->join('specialties', 'doctors.specialty_id', '=', 'specialties.id')
                 ->select(
-                    'appointments.*',
+                    'appointments.user_id',
+                    'appointments.day',
+                    'appointments.start_time',
+                    'appointments.end_time',
+                    'appointments.cases_number',
                     'users.name as doctor_name',
                     'specialties.specialty_name'
                 )->get();
@@ -80,17 +85,16 @@ class AppointmentsController extends Controller
     public function deleteAppointment(int $id)
     {
         DoctorAppointment::destroy($id);
-        return response()->json(['message' => 'Appointment deleted successfully'], 200);
+        return response()->json(['id' => $id, 'status' => true], 200);
     }
+
 
 
     private function getUserAsDoctor()
     {
         $id = auth()->user()->id;
         $doctor = User::where('id', $id)->where('is_doctor', 1)->first();
-
         if (!$doctor) throw new DoctorNotFoundException('Doctor not found');
-
         return $doctor;
     }
 }

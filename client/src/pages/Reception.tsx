@@ -1,26 +1,28 @@
 import TabsNavigator from "@/components/common/TabsNavigator";
-import { DoctorList, NewPatient, ShowPatientsBooking } from "@/components/private/reception";
+import ShowBookingContent from "@/components/reception/booking/ShowBookingContent";
+import ShowDoctorsAppointments from "@/components/reception/doctors/ShowDoctorsAppointments";
+import Patient from "@/components/reception/patient/Patient";
 import { useState } from "react";
-import { Bs1CircleFill, Bs2CircleFill, Bs3CircleFill  } from "react-icons/bs";
+import { Bs1CircleFill, Bs2CircleFill, Bs3CircleFill } from "react-icons/bs";
 
 const Reception = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
 
   const tabs = [
     {
-      title: "New patient",
+      title: "Patient",
       icon: <Bs1CircleFill />,
-      content: <NewPatient />,
+      content: <Patient />,
     },
     {
-      title: "Patients booking",
+      title: "Booking",
       icon: <Bs2CircleFill />,
-      content: <ShowPatientsBooking />,
+      content: <ShowBookingContent/>,
     },
     {
       title: "Doctors",
       icon: <Bs3CircleFill />,
-      content: <DoctorList />,
+      content: <ShowDoctorsAppointments/>,
     },
   ];
 
@@ -32,6 +34,5 @@ const Reception = () => {
 };
 
 export default Reception;
-
 
 //

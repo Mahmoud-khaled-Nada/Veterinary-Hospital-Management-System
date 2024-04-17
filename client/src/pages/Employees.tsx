@@ -1,6 +1,8 @@
 import TabsNavigator from "@/components/common/TabsNavigator";
+import AddEmployee from "@/components/employees/AddEmployee";
+import ShowAdministrative from "@/components/employees/e-administrative/ShowAdministrative";
+import ShowDoctors from "@/components/employees/e-doctor/ShowDoctors";
 import { useState } from "react";
-import { AddEmployee, ShowDoctors, ShowAdministratives } from "@/components/private/employees";
 import { Bs1CircleFill, Bs2CircleFill, Bs3CircleFill } from "react-icons/bs";
 
 const Employees = () => {
@@ -15,12 +17,12 @@ const Employees = () => {
     {
       title: "Show doctors",
       icon: <Bs2CircleFill />,
-      content: <ShowDoctors />,
+      content: <ShowDoctors/>,
     },
     {
       title: "Show Administratives",
       icon: <Bs3CircleFill />,
-      content: <ShowAdministratives />,
+      content: <ShowAdministrative/>,
     },
   ];
 

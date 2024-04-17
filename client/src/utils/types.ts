@@ -1,205 +1,192 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export type PrivateRouteProps = {
+export type AuthenticationRouterProps = {
   children?: React.ReactNode;
 };
 
-export type navigateListType = {
+export type NavigateListType = {
   name: string;
   path: string;
   icon: React.ReactNode;
 };
 
-//  speciality
-
-export type CreateSpecialtyType = {
-  specialty_name: string;
-};
-
-export type SpecialtyDetailsType = {
-  id: number;
-  specialty_name: string;
-};
-export type specialtiesDetailsType = {
-  specialties: SpecialtyDetailsType[];
-  isLoading: boolean;
-};
-
-// User CreateUserParams
-
 export type AuthorizationToken = {
-  token: any;
-  user: UserDetails;
+  access_token: string;
+  expires_in: number;
+  user: User;
 };
 
-export type UserLoginParams = {
+export type UserParams = {
   email: string;
   password: string;
 };
 
-export type UserDetails = {
+export interface User {
   id: number;
   name: string;
   email: string;
   phone: string;
-  is_doctor?: string;
+  is_doctor: string;
   permission: string;
   extra_info: string | null;
   created_at: string;
   updated_at?: string;
-};
+}
 
-export type AuthUserState = {
-  user: UserDetails | null;
+export type UserState = {
+  user: User | null;
   isLoading: boolean;
 };
 
-export type CreatePatientDetails = {
-  owner_name: string;
-  owner_email: string;
-  owner_number: string;
-  animal_name: string;
-  animal_type: string;
-};
-
-export type PatientDetails = {
-  id: number;
-  owner_name: string;
-  owner_email: string;
-  owner_number: string;
-  animal_name: string;
-  animal_type: string;
-  created_at: string;
-  updated_at: string;
-};
-
-export type ReceptionState = {
-  patients: PatientDetails[];
-  DoctorsAppointments: AppointmentsDetails[];
-  isLoading?: boolean;
-};
-
-// doctor
-
-export type DoctorAppointmentsDetails = {
-  id: number;
-  user_id: number;
-  doctor_name: string;
-  day: string;
-  start_time: string;
-  end_time: string;
-  cases_number: string;
+//* Specialty
+export type SpecialtyParam = {
   specialty_name: string;
 };
 
-// booking
-
-export type PatientBookingParams = {
-  user_id: number | undefined;
-  patient_id: number | undefined;
-  booking_date: string | undefined;
-  specialty_id: string | undefined;
-  detection_price: string;
-  booking_stauts: string;
-};
-
-export type PatientsBookingDetails = {
-  filter(arg0: (booking: PatientsBookingDetails) => boolean): unknown;
-  last_page?: any;
-  data?: any;
+export type SpecialtyDetails = {
   id: number;
-  owner_name: string;
-  doctor_name: string;
   specialty_name: string;
-  booking_date: string;
-  detection_price: string;
-  medications: string;
-  doctor_report: string;
-  booking_status: string;
-  created_at: string;
-  map: any;
 };
 
-export type BookingState = {
-  bookings: PatientsBookingDetails[];
-  lastPage: number;
+export type SpecialtiesState = {
+  specialties: SpecialtyDetails[];
   isLoading: boolean;
 };
 
-// user add
+//* Employee
 
-export type UserPermissionFixed = {
-  permission?: "sub_admin" | "admin" | "doctor" | "receptionist" | "user";
-};
-
-export type AddDoctorParams = {
-  is_doctor: boolean;
+export type EmployeeParams = {
   specialty_id?: number | undefined;
+  is_doctor: boolean;
   name: string;
   email: string;
   phone: string;
   password: string;
-  permission: "doctor" | UserPermissionFixed;
+  permission: UserPermissionFixed;
   extra_info: string;
 };
 
-//AppointmentsParam
+export type UserPermissionFixed = {
+  permission: "sub_admin" | "admin" | "doctor" | "receptionist" | "user";
+};
+
+export interface DoctorDetails extends User {
+  specialty_name: string;
+}
+
+export type EditDoctorParams = {
+  name?: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+  permission?: UserPermissionFixed;
+  specialty_id?: number;
+};
 
 export type AppointmentsParam = {
-  day: string;
-  start_time: string;
-  end_time: string;
-  cases_number: string;
-};
-
-export type AppointmentsDetails = {
   id: number;
+  day: string;
+  start_time: string;
+  end_time: string;
+  cases_number: string;
+};
+
+export type DoctorAppointmentsDetails = {
+  id: number;
+  doctor_name: string;
   user_id: number;
   day: string;
   start_time: string;
   end_time: string;
   cases_number: string;
-  created_at: string;
-  updated_at: string;
+  specialty_name: string;
 };
 
-export type PatientsQueueDetails = {
-  booking_id: number;
-  patient_id: number;
-  user_id: number;
-  specialty_id: number;
-  booking_status: string;
-  booking_date: string;
+export type AppointmentState = {
+  appointments: AppointmentsParam[];
+  allAppointments: DoctorAppointmentsDetails[];
+};
+
+export type CreatePatientParams = {
+  id: number;
   owner_name: string;
+  owner_email: string;
+  owner_number: string;
   animal_name: string;
   animal_type: string;
 };
 
-export type AppointmentsState = {
-  appointments: AppointmentsDetails[];
-  patientsQueue: PatientsQueueDetails[];
-  currentPatient: PatientsQueueDetails[];
+export type PatientState = {
+  patient: CreatePatientParams | null;
 };
 
-//Notifications
+export type BookingParams = {
+  user_id: number;
+  patient_id: number;
+  booking_date: string;
+  specialty_id: number;
+  detection_price: string;
+};
+
+export type BookingDetails = {
+  id: number;
+  user_id: number;
+  patient_id: number;
+  specialty_id: number;
+  specialty_name: string;
+  booking_date: string;
+  medications: string;
+  doctor_report: string;
+  booking_status: string;
+  owner_name: string;
+  doctor_name: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type BookingState = {
+  bookings: BookingDetails[];
+  isLoading: boolean;
+  lastPage: number;
+};
+
+export type BookingActionParams = {
+  booking_id: number;
+  booking_status: string;
+};
 
 export type BookingNotificationsDetails = {
-  unread: boolean;
+  booking_id: number;
+  booking_date: string;
+  booking_created_at: string;
+  notification_unread: boolean;
   notification_id: string;
   booking_at: string;
   owner_name: string;
-  owner_email: string;
   animal_name: string;
   animal_type: string;
 };
 
 export type BookingNotificationsState = {
-  allNotifications: BookingNotificationsDetails[];
+  notifications: BookingNotificationsDetails[];
 };
 
-export type TransferToDoctorParams = {
+
+export type PatientQueueDetails = {
   booking_id: number;
   booking_status: string;
+  patient_id: number;
+  user_id: number;
+  specialty_id: number;
+  booking_date: string;
+  owner_name: string;
+  animal_name: string;
+  animal_type: string;
 };
+
+export type DoctorState = {
+  queue: PatientQueueDetails[];
+}
+
+
 
 
 export type DoctorReportParams = {
@@ -207,4 +194,4 @@ export type DoctorReportParams = {
   booking_status: string;
   medications?: string | undefined;
   doctor_report?: string | undefined;
-};
+}

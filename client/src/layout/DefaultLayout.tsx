@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
 import { useEffect, useState } from "react";
+import Sidebar from "./@components/Sidebar";
+import Header from "./@components/Header";
 
 export default function DefaultLayout() {
   const [width, setWidth] = useState(document.body.offsetWidth);

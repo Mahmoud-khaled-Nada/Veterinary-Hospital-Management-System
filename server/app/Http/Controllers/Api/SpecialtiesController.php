@@ -13,14 +13,14 @@ class SpecialtiesController extends Controller
     public function index()
     {
         $specialties = Specialty::orderBy('id')->get();
-    
+
         if ($specialties->isEmpty()) {
             return response()->json(["message" => "Specialties are empty"], 400);
         }
-    
+
         return response()->json($specialties, 200);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -30,9 +30,10 @@ class SpecialtiesController extends Controller
             'specialty_name' => 'required|string|max:100'
         ]);
 
-        Specialty::create($request->all());
+        $specialty =  Specialty::create($request->all());
 
         return response()->json([
+            $specialty,
             'message' => 'Specialty created successfully'
         ], 200);
     }
@@ -45,23 +46,23 @@ class SpecialtiesController extends Controller
         $request->validate([
             'specialty_name' => ['required', 'string', 'max:100', Rule::unique('specialties')->ignore($id)],
         ]);
-    
+
         $specialty = Specialty::find($id);
-    
+
         if (!$specialty) {
             return response()->json([
                 'message' => 'Specialty not found'
             ], 404);
         }
-    
+
         $specialty->update($request->all());
-    
+
         return response()->json([
             $specialty,
             'message' => 'Specialty updated successfully'
         ], 200);
     }
-    
+
     /**
      * Remove the specified resource from storage.
      */

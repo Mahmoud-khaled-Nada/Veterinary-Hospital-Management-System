@@ -25,10 +25,10 @@ class PatientController extends Controller
             $patientExists = $this->checkIsPatientHasAlready($ownerName, $animalName, $animalType);
 
             if ($patientExists) {
-                return response()->json(['message' => 'Patient already exists'], 201);
+                return response()->json([$patientExists, 'isExists' => 'exists', 'message' => 'Patient already exists'], 201);
             } else {
-              Patient::create($request->all());
-                return response()->json(['message' => 'Patient created successfully'], 200);
+                $create =  Patient::create($request->all());
+                return response()->json([$create, 'message' => 'Patient created successfully'], 200);
             }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to create patient'], 500);
@@ -95,6 +95,6 @@ class PatientController extends Controller
         $exist = Patient::where('owner_name', $ownerName)
             ->where('animal_name', $animalName)
             ->where('animal_type', $animalType)->first();
-        return $exist ? true : false;
+        return $exist ?  $exist : false;
     }
 }
