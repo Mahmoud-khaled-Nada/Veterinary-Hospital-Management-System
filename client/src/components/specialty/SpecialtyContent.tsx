@@ -34,7 +34,7 @@ function SpecialtyContent() {
               specialties?.map((item, index: number) => (
                 <tr key={index}>
                   <th>{index + 1}</th>
-                  <td className=" text-white text-nowrap"> {item.specialty_name}</td>
+                  <td className=" dark:text-white text-nowrap"> {item.specialty_name}</td>
                   <td>
                     <FiEdit size={17} color="#374151" cursor="pointer" onClick={() => onEdit(item.id)} />
                   </td>

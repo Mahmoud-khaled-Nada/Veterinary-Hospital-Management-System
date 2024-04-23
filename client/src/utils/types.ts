@@ -8,6 +8,7 @@ export type NavigateListType = {
   icon: React.ReactNode;
 };
 
+
 export type AuthorizationToken = {
   access_token: string;
   expires_in: number;
@@ -101,7 +102,7 @@ export type DoctorAppointmentsDetails = {
 };
 
 export type AppointmentState = {
-  appointments: AppointmentsParam[];
+  appointment: AppointmentsParam[];
   allAppointments: DoctorAppointmentsDetails[];
 };
 

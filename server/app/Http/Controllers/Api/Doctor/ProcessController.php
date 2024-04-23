@@ -12,11 +12,8 @@ class ProcessController extends Controller
 {
     public function patientsQueue()
     {
-        // Get the current doctor's ID
         $doctorId = Auth::id();
-    
-        // Get the current date
-        $currentDate = Carbon::today();
+        $currentDate = Carbon::now('Africa/Cairo')->format('Y-m-d');
     
         $patients = Booking::join('patients', 'patients.id', '=', 'bookings.patient_id')
             ->where('bookings.user_id', $doctorId)

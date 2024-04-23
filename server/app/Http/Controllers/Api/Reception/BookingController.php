@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\User;
 use App\Notifications\SendCreateNewBookingNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -48,7 +49,16 @@ class BookingController extends Controller
     public function booking()
     {
         try {
-            $bookings = $this->bookings()->paginate(20);
+            $currentDate = now()->setTimezone('Africa/Cairo')->toDateString();
+            $bookings = $this->bookings()
+                ->where('booking_date', '>=', $currentDate)
+                ->where(function ($query) {
+                    $query->where('booking_status', 'waiting')
+                        ->orWhere('booking_status', 'in_progress');
+                })
+                ->orderByRaw("CASE WHEN booking_status = 'in_progress' THEN 0 ELSE 1 END")
+                ->paginate(20);
+
 
             if ($bookings->isEmpty())
                 return response()->json(["message" => "Booking is empty"], 404);

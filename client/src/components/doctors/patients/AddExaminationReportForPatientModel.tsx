@@ -23,12 +23,17 @@ const AddExaminationReportForPatientModel: FC<Props> = ({ openModal, setOpenModa
   const mutation = bookingFinishedMutation(bookingId!);
   const onSubmit: SubmitHandler<DoctorReportParams> = async (data: DoctorReportParams) => {
     if (!data.booking_id && !data.booking_status) return;
-    await mutation.mutateAsync(data);
-    console.log(data)
+    try {
+      await mutation.mutateAsync(data);
+      setOpenModal(false);
+    } catch (error) {
+      console.log("Error from AddExaminationReportForPatientModel ");
+      console.log(error);
+    }
   };
-
   setValue("booking_id", bookingId!);
   setValue("booking_status", "done");
+
   return (
     <>
       {openModal && (

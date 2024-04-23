@@ -14,12 +14,17 @@ export const bookingSlice = createSlice({
   initialState,
   reducers: {
     changeStatusBooking: (state, action) => {
-      const {id , booking_status} = action.payload;
+      const { id, booking_status } = action.payload;
       const index = state.bookings.findIndex((item) => item.id === id);
+      
       if (index !== -1) {
-        const updatedBooking = { ...state.bookings[index] };
-        updatedBooking.booking_status = booking_status;
-        state.bookings.splice(index, 1, updatedBooking);
+        const updatedBooking = { ...state.bookings[index], booking_status };
+        if (booking_status === "in_progress") {
+          state.bookings.splice(index, 1);
+          state.bookings.unshift(updatedBooking);
+        } else {
+          state.bookings.splice(index, 1, updatedBooking);
+        }
       }
     },
     deleteBookingById: (state, action) => {

@@ -13,7 +13,7 @@ const Appointment = () => {
     dispatch(getDoctorAppointmentsThunk());
   }, []);
 
-  const { appointments } = useSelector((state: RootState) => state.appointment);
+  const { appointment } = useSelector((state: RootState) => state.appointment);
   return (
     <section className="px-10">
       <div className="mx-auto max-w-screen-xl sm:px-6 lg:px-8">
@@ -22,7 +22,7 @@ const Appointment = () => {
         </FormContener>
       </div>
       <div className="divider"></div>
-      <AppointmentContent appointments={appointments} />
+      <AppointmentContent appointments={appointment} />
     </section>
   );
 };

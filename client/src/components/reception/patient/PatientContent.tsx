@@ -32,7 +32,9 @@ const PatientContent: FC<{ patient: CreatePatientParams | null }> = ({ patient }
             </tr>
           ) : (
             <tr>
-              <td colSpan={7}>No patient found.</td>
+              <td colSpan={7}>
+                <span className="loading loading-dots loading-sm"></span>
+              </td>
             </tr>
           )}
         </tbody>

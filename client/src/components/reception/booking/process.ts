@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AppDispatch } from "@/store";
 import { changeStatusBooking } from "@/store/booking/bookingSlice";
+import { getBookingThunk } from "@/store/booking/bookingThunk";
 import { createBookingAPI, transferBookingActionAPI } from "@/utils/apis";
 import { BookingActionParams, BookingParams, DoctorAppointmentsDetails } from "@/utils/types";
 import { useMutation } from "@tanstack/react-query";
@@ -22,12 +23,14 @@ export const filterDoctorsByDateAndSpecialty = (
 
 export const createBookingMutation = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   return useMutation<any, AxiosError, BookingParams>({
     mutationKey: ["createBooking"],
     mutationFn: async (data: BookingParams) => {
       return await createBookingAPI(data);
     },
     onSuccess: (response) => {
+      dispatch(getBookingThunk(1));
       toast.success(response.data.message);
       navigate(`/reception`);
     },

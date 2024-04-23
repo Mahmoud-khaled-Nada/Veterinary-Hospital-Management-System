@@ -14,7 +14,7 @@ export const getAllAppointmentsThunk = createAsyncThunk("fetch/all/appointments"
 });
 
 const initialState: AppointmentState = {
-  appointments: [],
+  appointment: [],
   allAppointments: []
 };
 
@@ -24,13 +24,13 @@ export const appointmentSlice = createSlice({
   reducers: {
     addAppointments: (state, action) => {
         console.log("update new item");
-        state.appointments.push(action.payload);
+        state.appointment.push(action.payload);
       },
     deleteAppointment: (state, action) => {
       const id = action.payload;
-      const exists = state.appointments.find((appoint) => appoint.id === id);
+      const exists = state.appointment.find((appoint) => appoint.id === id);
       if (!exists) return;
-      state.appointments = state.appointments.filter((appoint) => appoint.id !== id);
+      state.appointment = state.appointment.filter((appoint) => appoint.id !== id);
     },
   },
 
@@ -38,7 +38,7 @@ export const appointmentSlice = createSlice({
     builder
       .addCase(getDoctorAppointmentsThunk.fulfilled, (state, action) => {
         console.log("getDoctorAppointmentsThunk.fulfilled");
-        state.appointments = action.payload;
+        state.appointment = action.payload;
       })
       .addCase(getDoctorAppointmentsThunk.rejected, () => {
         console.log("getDoctorAppointmentsThunk.rejected");
