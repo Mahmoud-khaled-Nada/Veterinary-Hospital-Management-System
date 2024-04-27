@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\Doctor\ProcessController;
 use App\Http\Controllers\Api\Reception\BookingController;
 use App\Http\Controllers\Api\Reception\ReceptionController;
 use App\Http\Controllers\Api\Reception\PatientController;
+use App\Http\Controllers\Api\Report\BookingReportController;
+use App\Http\Controllers\Api\Report\SafeReportController;
 use App\Http\Controllers\Api\SpecialtiesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -89,6 +91,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'reception-process'], func
 });
 
 
-// Route::group(['prefix' => 'reports'], function () {
-//      Route::post('booking', [ReportsController::class, 'booking']);
-// });
+Route::group(['prefix' => 'reports'], function () {
+     Route::post('booking', [BookingReportController::class, 'booking']);
+     Route::delete('booking/{id}/delete', [BookingReportController::class, 'deleteBooking']);
+     Route::post('safe', [SafeReportController::class, 'safe']);
+});

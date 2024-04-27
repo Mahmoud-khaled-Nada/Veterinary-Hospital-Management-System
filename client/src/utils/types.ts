@@ -8,7 +8,6 @@ export type NavigateListType = {
   icon: React.ReactNode;
 };
 
-
 export type AuthorizationToken = {
   access_token: string;
   expires_in: number;
@@ -119,21 +118,17 @@ export type PatientState = {
   patient: CreatePatientParams | null;
 };
 
-export type BookingParams = {
+export interface BookingParams {
   user_id: number;
   patient_id: number;
   booking_date: string;
   specialty_id: number;
   detection_price: string;
-};
+}
 
-export type BookingDetails = {
+export interface BookingDetails extends BookingParams {
   id: number;
-  user_id: number;
-  patient_id: number;
-  specialty_id: number;
   specialty_name: string;
-  booking_date: string;
   medications: string;
   doctor_report: string;
   booking_status: string;
@@ -141,7 +136,7 @@ export type BookingDetails = {
   doctor_name: string;
   created_at: string;
   updated_at: string;
-};
+}
 
 export type BookingState = {
   bookings: BookingDetails[];
@@ -170,7 +165,6 @@ export type BookingNotificationsState = {
   notifications: BookingNotificationsDetails[];
 };
 
-
 export type PatientQueueDetails = {
   booking_id: number;
   booking_status: string;
@@ -185,14 +179,33 @@ export type PatientQueueDetails = {
 
 export type DoctorState = {
   queue: PatientQueueDetails[];
-}
-
-
-
+};
 
 export type DoctorReportParams = {
   booking_id: number;
   booking_status: string;
   medications?: string | undefined;
   doctor_report?: string | undefined;
-}
+};
+
+export type ReportParams = {
+  startDate: string;
+  endDate: string;
+};
+
+export type BookingReportParams = {
+  statue: string;
+  startDate: string;
+  endDate: string;
+};
+
+export type SafeReportParams = {
+  id: number;
+  booking_date: string;
+  detection_price: string;
+  booking_status: string;
+  owner_name: string;
+  doctor_name: string;
+  specialty_name: string;
+  created_at: string;
+};

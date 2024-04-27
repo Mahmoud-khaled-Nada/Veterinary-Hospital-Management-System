@@ -6,10 +6,12 @@ import {
   BookingActionParams,
   BookingDetails,
   BookingParams,
+  BookingReportParams,
   CreatePatientParams,
   DoctorDetails,
   DoctorReportParams,
   EditDoctorParams,
+  ReportParams,
   SpecialtyParam,
   User,
   UserParams,
@@ -90,10 +92,18 @@ export const transferBookingActionAPI = (data: BookingActionParams) =>
 //bookingNotificationsAPI
 
 export const bookingNotificationsAPI = () => api.get("/doctor-notifications/new-booking");
-export const readBookingNotificationsAPI = (id: string) => api.post(`/doctor-notifications/read-booking/${id}`);
+export const readBookingNotificationsAPI = (id: string) =>
+  api.post(`/doctor-notifications/read-booking/${id}`);
 
 //** start doctors patients-queue actions **
 export const getPatientsQueuetoDoctorAPI = () => api.get("/doctor-process/patients-queue");
 
 export const bookingFinishedAPI = (data: DoctorReportParams) =>
   api.patch("/doctor-process/booking-done", data);
+
+//** start Reports actions **
+export const bookingReportAPI = (data: BookingReportParams) => api.post("/reports/booking", data);
+export const deleteBookingReportAPI = (id: number) => api.delete(`/reports/booking/${id}/delete`);
+
+export const safeReportAPI = (data: ReportParams) => api.post("/reports/safe", data);
+

@@ -1,6 +1,30 @@
+import SmallButton from "@/components/common/button/SmallButton";
+import { deleteBookingReportAPI } from "@/utils/apis";
+import { formatDay } from "@/utils/helper";
+import { BookingDetails } from "@/utils/types";
+import { useMutation } from "@tanstack/react-query";
+import { FC } from "react";
+import { toast } from "react-toastify";
 
+type Props = {
+  booking: BookingDetails[];
+  isLoading: boolean;
+};
 
-function BookingContent() {
+const BookingContent: FC<Props> = ({ booking, isLoading }) => {
+  const mutation = useMutation({
+    mutationKey: ["deleteBookingReport"],
+    mutationFn: async (id: number) => {
+      return await deleteBookingReportAPI(id);
+    },
+    onSuccess: (response) => {
+      toast.success(response.data.message);
+    },
+    onError: (error) => {
+      console.log("Create Specialty Error");
+      console.log(error);
+    },
+  });
 
   return (
     <>
@@ -10,34 +34,42 @@ function BookingContent() {
             <tr>
               <th>#</th>
               <th>Specialty</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th>Doctor</th>
+              <th>Owner name</th>
+              <th>Booking Status</th>
+              <th>Medications</th>
+              <th>Doctor Report</th>
+              <th>Created At</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {/* {specialties.length > 0 &&
-              specialties?.map((item, index: number) => (
-                <tr key={index}>
-                  <th>{index + 1}</th>
-                  <td className=" text-white text-nowrap"> {item.specialty_name}</td>
-                  <td>
-                    <FiEdit size={17} color="#374151" cursor="pointer" onClick={() => onEdit(item.id)} />
-                  </td>
-                  <td>
-                    <RiDeleteBin6Line
-                      size={17}
-                      color="red"
-                      cursor="pointer"
-                      onClick={() => onDelete(item.id)}
-                    />
-                  </td>
-                </tr>
-              ))} */}
+            {isLoading
+              ? "Loading"
+              : booking.map((booking, index) => (
+                  <tr key={index} className="text-white">
+                    <th>{index + 1}</th>
+                    <td>{booking.specialty_name}</td>
+                    <td>{booking.doctor_name}</td>
+                    <td>{booking.owner_name}</td>
+                    <td>{booking.booking_status}</td>
+                    <td>{booking.medications}</td>
+                    <td>{booking.doctor_report}</td>
+                    <td>{formatDay(booking.created_at)}</td>
+                    <td>
+                      <SmallButton
+                        title="delete"
+                        onClick={() => mutation.mutateAsync(booking.id)}
+                        color="red"
+                      />
+                    </td>
+                  </tr>
+                ))}
           </tbody>
         </table>
       </div>
     </>
   );
-}
+};
 
 export default BookingContent;
