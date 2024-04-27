@@ -1,11 +1,15 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 import { AvatarDropdown } from "./AvatarDropdown";
+import { useLocation } from "react-router-dom";
+import { formatTitle } from "@/utils/helper";
 // import NotificationsHeader from "@/components/common/notifications/NotificationsHeader";
 
 const Header = () => {
+  const { pathname } = useLocation();
   return (
     <header className="sticky top-0 z-50 bg-gray-50 md:flex h-14 items-center border-b-2 border-gray-300 dark:bg-dark_header_body dark:border-dark_border gap-4 px-4">
+      {formatTitle(pathname)}
       <button className="md:hidden">
         <HiOutlineChevronLeft className="h-4 w-4" />
         <span className="sr-only">Toggle sidebar</span>

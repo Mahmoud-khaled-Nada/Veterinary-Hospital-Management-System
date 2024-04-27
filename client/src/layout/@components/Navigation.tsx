@@ -27,6 +27,31 @@ const generateNavigationLinks = (user: User): NavigateListType[] => {
         icon: <FaDog size={20} />,
       },
       {
+        name: "Reports",
+        path: "/reports",
+        icon: <TbReportAnalytics size={20} />,
+      }
+    );
+  }
+
+  if (user.permission === "sub_admin") { // as A doctor_admin
+    baseLinks.push(
+      {
+        name: "Specialty",
+        path: "/specialty",
+        icon: <BiSolidCategoryAlt size={20} />,
+      },
+      {
+        name: "Employees",
+        path: "/employees",
+        icon: <GrUserNew size={20} />,
+      },
+      {
+        name: "Reception",
+        path: "/reception",
+        icon: <FaDog size={20} />,
+      },
+      {
         name: "Doctor",
         path: "/doctor",
         icon: <FaUserDoctor size={20} />,

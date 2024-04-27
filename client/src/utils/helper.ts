@@ -19,3 +19,12 @@ export const isFutureOrToday = (dateString: string): boolean => {
   }
   return false;
 };
+
+
+//const { pathname } = useLocation();
+
+
+
+export const formatTitle = (title: string): string => {
+  return title.split('/').slice(1).map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+}

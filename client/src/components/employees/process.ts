@@ -33,7 +33,7 @@ export const fetchDoctorsQuery = () => {
     queryKey: ["fetchDoctors"],
     queryFn: async () => {
       const response = await DoctorsAPI();
-      return response.data;
+      return response.data.data;
     },
   });
   return query;
