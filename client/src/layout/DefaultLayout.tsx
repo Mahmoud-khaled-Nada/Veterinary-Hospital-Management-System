@@ -21,7 +21,8 @@ export default function DefaultLayout() {
           </div>
         </div>
       ) : (
-        <div className="w-5/6 mx-auto min-h-screen flex flex-col">
+        // w-5/6 mx-auto 
+        <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1 dark:bg-dark_Body overflow-auto">
             <Outlet />

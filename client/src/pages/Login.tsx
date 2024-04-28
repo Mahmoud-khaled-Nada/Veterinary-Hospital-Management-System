@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { setUserFromLogin } from "@/store/userSlice";
+import Button from "@/components/common/button/Button";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -128,12 +129,11 @@ const Login = () => {
           </div>
 
           <div className="flex items-center justify-between">
-            <button
-              type="submit"
-              className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
-            >
-              Sign in
-            </button>
+            <Button
+            title="Sign in"
+            inputType="submit"
+            isLoading={mutation.isPending}
+            />
           </div>
         </form>
       </div>
