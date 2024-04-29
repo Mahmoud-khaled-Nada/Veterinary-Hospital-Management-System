@@ -1,4 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 export const currentDate = (): string => {
   const currentDate = new Date();
@@ -20,11 +23,10 @@ export const isFutureOrToday = (dateString: string): boolean => {
   return false;
 };
 
-
-//const { pathname } = useLocation();
-
-
-
 export const formatTitle = (title: string): string => {
-  return title.split('/').slice(1).map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
-}
+  return title
+    .split("/")
+    .slice(1)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+};

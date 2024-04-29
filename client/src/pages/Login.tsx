@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { UserParams } from "@/utils/types";
 import { postLoginUserAPI } from "@/utils/apis";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -7,23 +6,23 @@ import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { setUserFromLogin } from "@/store/userSlice";
 import Button from "@/components/common/button/Button";
+import usePermission from "@/utils/hook/usePermission";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const selectNavigate = usePermission();
   const mutation = useMutation({
     mutationKey: ["Login"],
     mutationFn: async (data: UserParams) => {
       return await postLoginUserAPI(data);
     },
     onSuccess(res) {
-      console.log(res);
       dispatch(setUserFromLogin(res.data));
-      navigate("/");
+      selectNavigate(res.data.user.permission);
     },
     onError: (err) => {
       console.log(err);
-      toast("email or password is not valid", { type: "error" });
+      toast.error("email or password is not valid");
     },
   });
 
@@ -129,11 +128,7 @@ const Login = () => {
           </div>
 
           <div className="flex items-center justify-between">
-            <Button
-            title="Sign in"
-            inputType="submit"
-            isLoading={mutation.isPending}
-            />
+            <Button title="Sign in" inputType="submit" isLoading={mutation.isPending} />
           </div>
         </form>
       </div>

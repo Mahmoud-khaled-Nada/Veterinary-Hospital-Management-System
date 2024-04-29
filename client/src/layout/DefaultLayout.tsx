@@ -20,9 +20,8 @@ export default function DefaultLayout() {
             </main>
           </div>
         </div>
-      ) : (
-        // w-5/6 mx-auto 
-        <div className="min-h-screen flex flex-col">
+      ) : ( 
+        <div className="w-5/6 mx-auto min-h-screen flex flex-col">
           <Header />
           <main className="flex-1 dark:bg-dark_Body overflow-auto">
             <Outlet />
@@ -32,22 +31,3 @@ export default function DefaultLayout() {
     </>
   );
 }
-
-// const [width, setWidth] = useState(document.body.offsetWidth);
-// useEffect(() => {
-//   const handleResize = () => setWidth(document.body.offsetWidth);
-//   window.addEventListener("resize", handleResize);
-//   return () => {
-//     window.removeEventListener("resize", handleResize);
-//   };
-
-//   //   <div
-//   //   className={`${
-//   //     width <= 750
-//   //       ? "hidden"
-//   //       : "flex flex-col md:col-span-3 border-r-2 border-gray-300 dark:bg-dark_header_body dark:border-dark_border"
-//   //   }`}
-//   // >
-//   //   <Sidebar />
-//   // </div>
-// }, [width]);

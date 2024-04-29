@@ -8,7 +8,7 @@ import { useDeleteDoctorMutation, fetchDoctorsQuery } from "../process";
 import EditDoctorModel from "./EditDoctorModel";
 
 const ShowDoctors = () => {
-  const doctors = fetchDoctorsQuery() as any;
+  const doctors = fetchDoctorsQuery();
   const [openModal, setOpenModal] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [selectedDoctorId, setSelectedDoctorId] = useState<number | null>(null);
@@ -19,6 +19,8 @@ const ShowDoctors = () => {
       setOpenModal(false);
     }
   };
+
+  if(doctors.isLoading) return "Please wait...";
 
   return (
     <div className="overflow-x-auto">
@@ -35,12 +37,8 @@ const ShowDoctors = () => {
           </tr>
         </thead>
         <tbody>
-          {doctors.isLoading ? (
-            <tr>
-              <td colSpan={7}>Loading...</td>
-            </tr>
-          ) : !doctors.isError && doctors.data?.data.length > 0 ? (
-            doctors.data?.data.map((row: any) => (
+          {doctors.data &&
+            doctors.data?.map((row: any) => (
               <tr key={row.id}>
                 <td>{row.name}</td>
                 <td>
@@ -67,12 +65,7 @@ const ShowDoctors = () => {
                   />
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={7}>No doctors found.</td>
-            </tr>
-          )}
+            ))}
         </tbody>
       </table>
 

@@ -21,10 +21,7 @@ const Sidebar = () => {
   return (
     <div className="sticky top-0 z-30">
       <div className="flex items-center h-14 px-2 border-b-2 border-gray-300 dark:border-dark_border">
-        <Link to={"/"} className="flex items-center space-x-2">
-          <FaHome className="h-6 w-6 text-gray-700  dark:text-white" />
-          <span className="text-lg font-semibold text-gray-700 dark:text-white">Home</span>
-        </Link>
+      <FaHome className="h-6 w-6 text-gray-700  dark:text-white" />
         <button className="btn btn-sm btn-outline ml-2 text-gray-700 dark:text-white">
           {user && user.name}
         </button>

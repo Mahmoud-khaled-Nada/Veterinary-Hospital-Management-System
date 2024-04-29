@@ -1,4 +1,3 @@
-import SmallButton from "@/components/common/button/SmallButton";
 import { formatDay } from "@/utils/helper";
 import { SafeReportParams } from "@/utils/types";
 import { FC } from "react";
@@ -10,10 +9,6 @@ type Props = {
 };
 
 const SafeContent: FC<Props> = ({ safe, isLoading, total }) => {
-  function printSafeContent() {
-    window.print();
-  }
-
   return (
     <>
       <div className="overflow-x-auto">
@@ -59,9 +54,6 @@ const SafeContent: FC<Props> = ({ safe, isLoading, total }) => {
               </tr>
             )}
           </tbody>
-          <div className=" text-center">
-            <SmallButton title="Print" onClick={printSafeContent} />
-          </div>
         </table>
       </div>
     </>
