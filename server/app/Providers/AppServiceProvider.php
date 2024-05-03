@@ -11,9 +11,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            'App\Repositories\Booking\IBookingRepository',
+            'App\Repositories\Booking\BookingRepository'
+        );
     }
-
     /**
      * Bootstrap any application services.
      */

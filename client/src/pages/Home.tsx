@@ -20,7 +20,7 @@ const Home: FC = () => {
             <h3 className="text-lg font-bold text-gray-800 dark:text-white">
               welcome ): {user && user.name}
             </h3>
-            {user && (user.permission === "doctor" || user.permission === "reception") && (
+            {user && (user.permission === "doctor" || user.permission === "receptionist") && (
               <>
                 <p className="mt-2 text-gray-500 dark:text-gray-400">
                   If you are a {user && user.permission}, please go to this page

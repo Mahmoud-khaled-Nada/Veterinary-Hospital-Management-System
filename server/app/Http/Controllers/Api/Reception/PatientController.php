@@ -22,6 +22,7 @@ class PatientController extends Controller
             $ownerName = $request->input('owner_name');
             $animalName = $request->input('animal_name');
             $animalType = $request->input('animal_type');
+
             $patientExists = $this->checkIsPatientHasAlready($ownerName, $animalName, $animalType);
 
             if ($patientExists) {

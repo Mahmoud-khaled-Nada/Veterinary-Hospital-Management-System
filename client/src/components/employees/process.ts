@@ -29,14 +29,13 @@ export const addEmployeeMutation = () => {
 };
 
 export const fetchDoctorsQuery = () => {
-  const query = useQuery<any>({
+  return useQuery<any>({
     queryKey: ["fetchDoctors"],
     queryFn: async () => {
       const response = await DoctorsAPI();
       return response.data.data;
     },
   });
-  return query;
 };
 
 export const useDeleteDoctorMutation = () => {
@@ -63,12 +62,7 @@ export const useDeleteDoctorMutation = () => {
 
 export const useUpdateDoctorMutation = () => {
   const queryClient = useQueryClient();
-
-  const updateDoctorMutation = useMutation<
-    any,
-    Error,
-    { selectedId: number; filteredData: EditDoctorParams }
-  >({
+  return useMutation<any, Error, { selectedId: number; filteredData: EditDoctorParams }>({
     mutationKey: ["updateDoctorMutation"],
     mutationFn: async ({ selectedId, filteredData }) => {
       const response = await updateDoctorsAPI(selectedId, filteredData);
@@ -83,8 +77,6 @@ export const useUpdateDoctorMutation = () => {
       toast.error("Failed to update doctor");
     },
   });
-
-  return updateDoctorMutation;
 };
 
 export const usefetchAdministrativeQuery = () => {

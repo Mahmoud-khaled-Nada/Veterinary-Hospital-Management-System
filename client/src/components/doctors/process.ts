@@ -22,10 +22,11 @@ export const addDoctorAppointmentsMutation = () => {
       dispatch(addAppointments(response.data[0]));
       toast.success("Appointment successfully added");
     },
-    onError: (error: AxiosError) => {
-      console.log("error from addEmployeeMutation  functions..");
-      console.log(error.message);
-      toast.error("your data is invalid");
+    onError: (error: AxiosError | any) => {
+      const err = error.response;
+      console.log(error.response.status);
+      if (err.status == 400) toast.warn(err.data.message);
+      else toast.error(err.data.message || "Failed to create appointment");
     },
   });
   return mutation;

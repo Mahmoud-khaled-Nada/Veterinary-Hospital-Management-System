@@ -21,7 +21,6 @@ const DoctorForm: FC = () => {
   const mutation = addEmployeeMutation();
   const onSubmit: SubmitHandler<EmployeeParams> = async (data: EmployeeParams) => {
     try {
-      // console.log(data)
       await mutation.mutateAsync(data);
       toast.success("Employee added successfully");
       reset();

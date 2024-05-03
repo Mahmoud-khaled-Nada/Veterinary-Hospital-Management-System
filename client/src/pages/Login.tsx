@@ -6,11 +6,11 @@ import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { setUserFromLogin } from "@/store/userSlice";
 import Button from "@/components/common/button/Button";
-import usePermission from "@/utils/hook/usePermission";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const selectNavigate = usePermission();
+  const navigate = useNavigate()
   const mutation = useMutation({
     mutationKey: ["Login"],
     mutationFn: async (data: UserParams) => {
@@ -18,7 +18,7 @@ const Login = () => {
     },
     onSuccess(res) {
       dispatch(setUserFromLogin(res.data));
-      selectNavigate(res.data.user.permission);
+      navigate('/')
     },
     onError: (err) => {
       console.log(err);

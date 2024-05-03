@@ -15,15 +15,13 @@ class DoctorController extends Controller
 {
     public function doctors(): JsonResource
     {
-        $doctors = DB::table('doctors')
-            ->join('users', 'users.id', '=', 'doctors.user_id')
+        $doctors = Doctor::join('users', 'users.id', '=', 'doctors.user_id')
             ->join('specialties', 'specialties.id', '=', 'doctors.specialty_id')
             ->select(
                 'users.*',
                 'specialties.specialty_name',
                 'specialties.id as specialty_id',
-            )
-            ->get();
+            )->get();
 
         return DoctorResource::collection($doctors);
     }
@@ -31,6 +29,7 @@ class DoctorController extends Controller
     public function update(Request $request, string $id)
     {
         try {
+
             $user = User::findOrFail($id);
 
             $validatedData = $request->validate([
@@ -46,9 +45,6 @@ class DoctorController extends Controller
                 $validatedData['password'] = Hash::make($validatedData['password']);
             }
 
-           
-
-
             if (isset($validatedData['specialty_id'])) {
                 $user->doctor()->updateOrCreate(
                     ['user_id' => $user->id],
@@ -57,15 +53,16 @@ class DoctorController extends Controller
             }
 
             $user->update($validatedData);
+
             return response()->json(['message' => 'Doctor updated successfully'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to update doctor'], 500);
         }
     }
 
+    
     public function delete(int $id)
     {
-
         try {
             $doctor = Doctor::where('user_id', $id)->first();
             if (!$doctor) {

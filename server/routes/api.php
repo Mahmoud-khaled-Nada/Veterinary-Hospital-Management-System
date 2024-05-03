@@ -31,17 +31,17 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 
-// Route::group(['middleware' => 'auth:api'], function () {
 Route::resource('specialties', SpecialtiesController::class)->only([
     'store', 'index', 'destroy', 'update'
-]);
-// });
+])->middleware('auth:api');
+
 
 Route::group(['prefix' => 'doctor'], function () {
     Route::get('/', [DoctorController::class, 'doctors']);
     Route::patch('/update/{id}', [DoctorController::class, 'update']);
     Route::delete('/delete/{id}', [DoctorController::class, 'delete']);
 });
+
 
 Route::group(['middleware' => ['auth:api', 'postAppointment'], 'prefix' => 'appointments'], function () {
     Route::post('/create', [AppointmentsController::class, 'createAppointments']);
@@ -58,7 +58,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'administratives'], functi
 });
 
 
-
 Route::group(['middleware' => 'auth:api', 'prefix' => 'patients'], function () {
     Route::post('/create', [PatientController::class, 'addPatient']);
     Route::get('/', [PatientController::class, 'showPatients']);
@@ -66,6 +65,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'patients'], function () {
     Route::patch('/update/{id}', [PatientController::class, 'updatePatient']);
     Route::delete('/delete/{id}', [PatientController::class, 'deletePatient']);
 });
+
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'doctor-process'], function () {
     Route::get('/patients-queue', [ProcessController::class, 'patientsQueue']);

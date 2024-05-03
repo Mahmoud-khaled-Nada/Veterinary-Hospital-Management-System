@@ -12,7 +12,7 @@ class ProcessController extends Controller
 {
     public function patientsQueue()
     {
-        $doctorId = Auth::id();
+        $doctorId = Auth::id(); 
         $currentDate = Carbon::now('Africa/Cairo')->format('Y-m-d');
     
         $patients = Booking::join('patients', 'patients.id', '=', 'bookings.patient_id')

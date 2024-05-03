@@ -5,10 +5,10 @@ namespace App\Helpers;
 use App\Models\Patient;
 use App\Models\User;
 
-class GeneralValidation
+class Helper
 {
 
-    public static  function checkDoctorExists($doctorId): bool
+    public static function checkDoctorExists($doctorId): bool
     {
         return User::where('id', $doctorId)->where('is_doctor', 1)->exists();
     }

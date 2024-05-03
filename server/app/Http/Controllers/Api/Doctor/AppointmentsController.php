@@ -17,6 +17,7 @@ class AppointmentsController extends Controller
     {
         try {
             $doctor = $this->getUserAsDoctor();
+
             $validatedData = $request->validate([
                 'day' => ['required', 'string', new FutureDate],
                 'start_time' => ['required', 'string'],
@@ -64,6 +65,8 @@ class AppointmentsController extends Controller
             return response()->json(['message' => 'Failed to create appointment'], 500);
         }
     }
+
+    
     public function doctorAppointment()
     {
         $doctor = $this->getUserAsDoctor();

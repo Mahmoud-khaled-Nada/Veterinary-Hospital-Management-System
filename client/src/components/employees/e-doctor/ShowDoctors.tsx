@@ -9,10 +9,11 @@ import EditDoctorModel from "./EditDoctorModel";
 
 const ShowDoctors = () => {
   const doctors = fetchDoctorsQuery();
+  const deleteDoctorMutation = useDeleteDoctorMutation();
   const [openModal, setOpenModal] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [selectedDoctorId, setSelectedDoctorId] = useState<number | null>(null);
-  const deleteDoctorMutation = useDeleteDoctorMutation();
+
   const confirmDeleteDoctor = async () => {
     if (selectedDoctorId) {
       await deleteDoctorMutation.mutateAsync(selectedDoctorId);
@@ -20,7 +21,7 @@ const ShowDoctors = () => {
     }
   };
 
-  if(doctors.isLoading) return "Please wait...";
+  if (doctors.isLoading) return "Please wait...";
 
   return (
     <div className="overflow-x-auto">
