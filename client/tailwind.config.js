@@ -9,10 +9,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        dark_Body: "#0f172a",
-        dark_border: "#374151",
-        dark_sidebar_body: "#0f172a",
-        dark_header_body: "#0f172a",
+        neutral900: "#171717",
+        neutral800: "#262626",
+        neutral700: "#262626",
+        neutral600: "#4B5563",
+        neutral500: "#6B7280",
+        neutral400: "#9CA3AF",
       },
     },
   },
@@ -20,3 +22,6 @@ module.exports = {
     require("daisyui"),
   ],
 }
+
+
+

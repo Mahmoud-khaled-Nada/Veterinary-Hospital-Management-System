@@ -20,8 +20,8 @@ const Sidebar = () => {
 
   return (
     <div className="sticky top-0 z-30">
-      <div className="flex items-center h-14 px-2 border-b-2 border-gray-300 dark:border-dark_border">
-      <FaHome className="h-6 w-6 text-gray-700  dark:text-white" />
+      <div className="flex items-center h-14 px-2 border-b-2 border-gray-300 dark:border-border_neutral700">
+        <FaHome className="h-6 w-6 text-gray-700  dark:text-white" />
         <button className="btn btn-sm btn-outline ml-2 text-gray-700 dark:text-white">
           {user && user.name}
         </button>
@@ -32,16 +32,17 @@ const Sidebar = () => {
             <li>
               <Link
                 to={item.path}
-                className={`h-14 flex items-center space-x-2 p-2 bg-opacity-50 text-gray-700 dark:hover:bg-gray-800 dark:text-white dark:focus:outline-none
+                className={`h-14 flex items-center space-x-2 p-2 bg-opacity-50 text-gray-700 dark:hover:bg-neutral800 dark:text-white dark:focus:outline-none
                 ${
                   item.path === currentPath &&
-                  "text-blue-600 bg-gray-300 dark:bg-gray-800 dark:hover:bg-opacity-100"
+                  "text-blue-600 bg-gray-300 dark:bg-neutral800 dark:hover:bg-opacity-100"
                 }
                 `}
               >
                 <div className={`flex items-center gap-2  ${item.path === currentPath && "text-blue-600"}`}>
                   {item.icon}
                   <span className="text-base font-medium ">{item.name}</span>
+                  {/* <span>1</span> */}
                 </div>
               </Link>
             </li>

@@ -2,9 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
 ::-webkit-scrollbar {
-   display: none;
+  display: none;
 }
 
 /* ::-webkit-scrollbar-thumb {
@@ -14,3 +13,12 @@
 ::-webkit-scrollbar-track {
     background-color: orange;
 } */
+
+/** 
+Old theme styles
+
+ dark_Body: "#0f172a",
+        dark_border: "#374151",
+        dark_sidebar_body: "#0f172a",
+        dark_header_body: "#0f172a",
+**/

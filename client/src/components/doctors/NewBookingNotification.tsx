@@ -5,17 +5,30 @@ import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { readBookingNotificationsAPI } from "@/utils/apis";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+
 const NewBookingNotification = () => {
+  const { pathname } = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const notification = useSelector((state: RootState) => state.notification.notifications);
   const memoizedNotification = useMemo(() => notification, [notification]);
+
+  const handleEventNotifications = () => {
+    if (pathname === "/doctor") {
+      return "opacity-40 cursor-not-allowed";
+    }
+    return "";
+  };
+
   useEffect(() => {
-    notification.length === 0 && dispatch(getbookingNotificationsThunk());
-  }, []);
+    if (notification.length === 0) {
+      dispatch(getbookingNotificationsThunk());
+    }
+  }, [dispatch, notification.length]);
 
   function readNotification(notificationId: string) {
-    readBookingNotificationsAPI(notificationId).then((response) => {
-      toast.info("read notification");
+    readBookingNotificationsAPI(notificationId).then(() => {
+      toast.info("Read notification");
       dispatch(getbookingNotificationsThunk());
     });
   }
@@ -23,19 +36,18 @@ const NewBookingNotification = () => {
   return (
     <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700 p-4">
       {memoizedNotification &&
-        memoizedNotification?.map((row, index: number) => (
-          <li
-            key={index}
-            className={` pb-3 sm:pb-4 ${
-              !row.notification_unread ? "opacity-40 cursor-not-allowed" : " cursor-pointer"
-            }`}
-          >
+        memoizedNotification.map((row, index: number) => (
+          <li key={index} className={`pb-3 sm:pb-4 ${handleEventNotifications()}`}>
             <div
-              className="flex items-center space-x-4 rtl:space-x-reverse"
-              onClick={() => readNotification(row.notification_id)}
+              className={`flex items-center space-x-4 rtl:space-x-reverse ${
+                handleEventNotifications() || "cursor-pointer"
+              }`}
+              onClick={() => {
+                if (pathname !== "/doctor") readNotification(row.notification_id);
+              }}
             >
               <div className="flex-shrink-0">
-                <img className="w-8 h-8 rounded-full" src={dog} />
+                <img className="w-8 h-8 rounded-full" src={dog} alt="Dog" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center text-left gap-4">

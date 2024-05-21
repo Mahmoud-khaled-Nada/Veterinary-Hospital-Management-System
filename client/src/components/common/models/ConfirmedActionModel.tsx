@@ -13,7 +13,7 @@ const ConfirmedActionModel: FC<Props> = ({ openModal, setOpenModal, onDone, acti
   return (
     <>
       {openModal && (
-        <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-10 z-50 flex justify-center items-center">
+        <div className="fixed top-0 left-0 w-full h-full bg-neutral800 bg-opacity-10 z-50 flex justify-center items-center">
           <div className="rounded-xl max-w-[500px] border border-gray-100 bg-white p-4">
             <div className="flex items-start gap-4">
               <span className="text-red-600">

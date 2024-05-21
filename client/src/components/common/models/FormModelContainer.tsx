@@ -13,8 +13,8 @@ const FormModelContainer: React.FC<Props> = ({ onClose, children, title, onSubmi
   return (
     <div className="hs-overlay size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none animate__animated animate__fadeInDown">
       <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-14 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
-        <div className="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-          <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
+        <div className="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto dark:bg-neutral800 dark:border-neutral700 dark:shadow-slate-700/[.7]">
+          <div className="flex justify-between items-center py-3 px-4 border-b dark:border-neutral700">
             <h3 className="font-bold text-gray-800 dark:text-white">{title}</h3>
             <button
               type="button"
