@@ -16,6 +16,7 @@ const TextareaField: FC<Props<any>> = ({ cols, rows, register, name, placeholder
       cols={cols}
       rows={rows}
       {...register(name.toString())}
+      autoComplete="off"
       placeholder={placeholder ? placeholder : "Add extra information"}
     ></textarea>
   );

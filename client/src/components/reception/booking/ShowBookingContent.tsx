@@ -32,8 +32,8 @@ const ShowBookingContent = () => {
                 <SearchInputField onChange={(e) => setSearchTerm(e.target.value)} value={searchTerm} />
               </div>
               <div className="overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-100 dark:bg-gray-700">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-100 dark:bg-neutral700">
                     <tr>
                       <th
                         scope="col"

@@ -15,6 +15,7 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({ onChange, value }) 
         placeholder="Search for items"
         onChange={onChange}
         value={value}
+        autoComplete="off"
       />
       <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
         <IoSearchSharp className="size-4 text-gray-400" />

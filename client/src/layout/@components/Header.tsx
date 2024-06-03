@@ -8,7 +8,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   return (
-    <header className="sticky top-0 z-50 bg-gray-50 md:flex h-14 items-center border-b-2 border-gray-300 dark:bg-neutral900 dark:border-border_neutral700 gap-4 px-4">
+    <header className="sticky top-0 z-50 bg-gray-50 md:flex h-14 items-center border-b-2 border-neutral700 dark:bg-neutral900 dark:border-border_neutral700 gap-4 px-4">
       {pathname != "/" && (
         <>
           <div className="badge badge-info gap-2 text-base cursor-pointer" onClick={() => navigate("/")}>

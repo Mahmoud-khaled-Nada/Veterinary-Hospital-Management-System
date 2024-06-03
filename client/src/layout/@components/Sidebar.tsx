@@ -20,7 +20,7 @@ const Sidebar = () => {
 
   return (
     <div className="sticky top-0 z-30">
-      <div className="flex items-center h-14 px-2 border-b-2 border-gray-300 dark:border-border_neutral700">
+      <div className="flex items-center h-14 px-2 border-b-2 border-neutral700 dark:border-border_neutral700">
         <FaHome className="h-6 w-6 text-gray-700  dark:text-white" />
         <button className="btn btn-sm btn-outline ml-2 text-gray-700 dark:text-white">
           {user && user.name}

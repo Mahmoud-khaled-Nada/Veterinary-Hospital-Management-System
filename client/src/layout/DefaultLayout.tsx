@@ -10,7 +10,7 @@ export default function DefaultLayout() {
     <>
       {user?.permission === "sub_admin" || user?.permission === "admin" ? (
         <div className="flex min-h-screen w-full grid md:grid-cols-12">
-          <div className="flex flex-col md:col-span-3 border-r-2 border-gray-300 dark:bg-neutral900 dark:border-border_neutral700">
+          <div className="flex flex-col md:col-span-3 border-r-2 border-neutral700 dark:bg-neutral900 dark:border-border_neutral700">
             <Sidebar />
           </div>
           <div className="md:col-span-9 flex flex-col">
