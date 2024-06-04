@@ -1,31 +1,26 @@
-import { useEffect, useState } from "react";
 import { AppDispatch } from "@/store";
 import { useDispatch } from "react-redux";
-import { fetchAuthUserThunk } from "@/store/userSlice";
 import { User } from "../types";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProfileAPI } from "../apis";
+import { useEffect } from "react";
+import { updateUserInfo } from "@/store/userSlice";
+
 export function useAuth() {
   const dispatch = useDispatch<AppDispatch>();
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const controller = new AbortController();
 
-  const fetchUser = async () => {
-    try {
-      const data = await dispatch(fetchAuthUserThunk()).unwrap();
-      console.log(data)
-      setUser(data);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { data: user, isLoading } = useQuery<User>({
+    queryKey: ["fetchAuthUser"],
+    queryFn: async () => {
+      const response = await getUserProfileAPI();
+      return response.data;
+    },
+    refetchOnMount: false,
+  });
 
   useEffect(() => {
-    if (!user) {
-      fetchUser();
-    }
+    if (user) dispatch(updateUserInfo(user));
 
     return () => {
       controller.abort();

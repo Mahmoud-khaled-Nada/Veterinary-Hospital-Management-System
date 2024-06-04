@@ -1,12 +1,6 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getUserProfileAPI } from "@/utils/apis";
-import { AuthorizationToken, UserState } from "@/utils/types";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { AuthorizationToken, User, UserState } from "@/utils/types";
 import { removeCookie, setCookie } from "@/utils/hook/useCookies";
-
-export const fetchAuthUserThunk = createAsyncThunk("fetch/auth/user", async () => {
-  const response = await getUserProfileAPI();
-  return response.data;
-});
 
 const initialState: UserState = {
   user: null,
@@ -25,20 +19,15 @@ export const userSlice = createSlice({
         setCookie("access_token", access_token, expires_in - 500);
       }
     },
-    logout: () => {},
-  },
-  extraReducers(builder) {
-    builder
-      .addCase(fetchAuthUserThunk.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(fetchAuthUserThunk.rejected, (state) => {
-        console.log("fetchAuthUserThunk.rejected");
-        state.isLoading = false;
-      });
+    updateUserInfo: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+    },
+    logout: (state) => {
+      state.user = null;
+      removeCookie("access_token");
+    },
   },
 });
 
-export const { setUserFromLogin } = userSlice.actions;
+export const { setUserFromLogin, updateUserInfo } = userSlice.actions;
 export default userSlice.reducer;
