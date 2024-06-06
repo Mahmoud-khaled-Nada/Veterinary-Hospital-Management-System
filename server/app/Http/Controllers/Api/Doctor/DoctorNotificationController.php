@@ -15,12 +15,15 @@ class DoctorNotificationController extends Controller
             $user = auth()->user();
             if (!$user->notifications->isEmpty()) {
                 $notificationsData = [];
-                foreach ($user->notifications as $notification) {
+                $doctorNotifications = $user->notifications->paginate(10);
+                foreach ($doctorNotifications as $notification) {
                     $notificationData = $notification->data;
                     $notificationData['notification_id'] = $notification->id;
                     $notificationData['notification_unread'] = $notification->unread();
                     $notificationsData[] = $notificationData;
                 }
+
+                // $notificationsData = collect($notificationsData)->paginate();
                 return response()->json($notificationsData, 200);
             }
         } catch (\Exception $e) {
@@ -33,10 +36,9 @@ class DoctorNotificationController extends Controller
         if (!$id)
             return response()->json(["error" => "Notification ID is required"], 400);
 
-
         $user = auth()->user();
 
-        $notification = $user->unreadNotifications()->find($id);
+        $notification = $user->unreadNotifications->find($id);
 
         if (!$notification) {
             return response()->json(["error" => "Notification not found"], 404);

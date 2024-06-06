@@ -18,7 +18,10 @@ const DoctorForm: FC = () => {
     formState: { errors },
   } = useForm<EmployeeParams>();
   setValue("is_doctor", true);
+
+  // Process...
   const mutation = addEmployeeMutation();
+  
   const onSubmit: SubmitHandler<EmployeeParams> = async (data: EmployeeParams) => {
     try {
       await mutation.mutateAsync(data);

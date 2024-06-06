@@ -7,11 +7,16 @@ import SpecialtyEdit from "./SpecialtyEdit";
 import { useState } from "react";
 
 function SpecialtyContent() {
+  // state
+  const dispatch = useDispatch<AppDispatch>();
+
   const [specialtyId, setSpecialtyId] = useState<number | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const dispatch = useDispatch<AppDispatch>();
-  const { specialties, isLoading } = useSelector((state: RootState) => state.specialty);
+
+  const { specialties } = useSelector((state: RootState) => state.specialty);
+
   const onDelete = (id: number) => dispatch(deleteSpecialtyThunk(id));
+
   const onEdit = (id: number) => {
     setSpecialtyId(id);
     setOpenModal(true);
@@ -21,7 +26,7 @@ function SpecialtyContent() {
     <>
       <div className="overflow-x-auto">
         <table className="table">
-          <thead>
+          <thead className=" dark:text-white text-nowrap">
             <tr>
               <th>#</th>
               <th>Specialty</th>
@@ -36,13 +41,16 @@ function SpecialtyContent() {
                   <th>{index + 1}</th>
                   <td className=" dark:text-white text-nowrap"> {item.specialty_name}</td>
                   <td>
-                    <FiEdit size={17} color="#374151" cursor="pointer" onClick={() => onEdit(item.id)} />
+                    <FiEdit
+                      className="cursor-pointer text-neutral-500 hover:text-neutral-300 transition-all"
+                      size={17}
+                      onClick={() => onEdit(item.id)}
+                    />
                   </td>
                   <td>
                     <RiDeleteBin6Line
+                      className="cursor-pointer text-red-800 hover:text-red-500 transition-all"
                       size={17}
-                      color="red"
-                      cursor="pointer"
                       onClick={() => onDelete(item.id)}
                     />
                   </td>

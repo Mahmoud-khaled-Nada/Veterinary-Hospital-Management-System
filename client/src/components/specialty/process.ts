@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 export const createSpecialtyMutation = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const mutation = useMutation({
+  return useMutation({
     mutationKey: ["createSpecialtyMutation"],
     mutationFn: async (data: SpecialtyParam) => {
       return await createSpecialtyAPI(data);
@@ -24,12 +24,11 @@ export const createSpecialtyMutation = () => {
       toast("please try again", { type: "error" });
     },
   });
-  return mutation;
 };
 
 export const updateSpecialtyMutation = (id: number) => {
   const dispatch = useDispatch<AppDispatch>();
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: async (data: SpecialtyParam) => {
       return await updateSpecialtyAPI(id, data);
     },
@@ -42,6 +41,4 @@ export const updateSpecialtyMutation = (id: number) => {
       toast("Please try again", { type: "error" });
     },
   });
-
-  return mutation;
 };

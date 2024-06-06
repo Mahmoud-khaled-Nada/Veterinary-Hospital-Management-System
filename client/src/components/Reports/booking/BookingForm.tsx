@@ -16,6 +16,7 @@ type ReportQueryParams = {
 
 const BookingForm = () => {
   const [booking, setBooking] = useState<BookingDetails[]>([]);
+
   const mutation = useMutation({
     mutationKey: ["bookingReport"],
     mutationFn: async (data: BookingReportParams) => {
@@ -62,7 +63,7 @@ const BookingForm = () => {
         </form>
       </FormContener>
       <div className="divider"></div>
-      <BookingContent booking={booking} isLoading={mutation.isPending} />
+      <BookingContent booking={booking} />
     </>
   );
 };

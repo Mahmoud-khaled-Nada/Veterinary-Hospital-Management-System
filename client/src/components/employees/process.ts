@@ -8,13 +8,13 @@ import {
   postAddUserAPI,
   updateDoctorsAPI,
 } from "@/utils/apis";
-import { DoctorDetails, EditDoctorParams, User, UserParams } from "@/utils/types";
+import { EditDoctorParams, User, UserParams } from "@/utils/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 
 export const addEmployeeMutation = () => {
-  const mutation = useMutation<any, AxiosError, UserParams>({
+  return useMutation<any, AxiosError, UserParams>({
     mutationKey: ["addEmployeeMutation"],
     mutationFn: async (data: UserParams) => {
       return await postAddUserAPI(data);
@@ -25,7 +25,6 @@ export const addEmployeeMutation = () => {
       toast.error("your data is invalid");
     },
   });
-  return mutation;
 };
 
 export const fetchDoctorsQuery = () => {
@@ -41,7 +40,7 @@ export const fetchDoctorsQuery = () => {
 export const useDeleteDoctorMutation = () => {
   const queryClient = useQueryClient();
 
-  const deleteDoctorMutation = useMutation<any, AxiosError, number>({
+  return useMutation<any, AxiosError, number>({
     mutationKey: ["addEmployeeMutation"],
     mutationFn: async (id: number) => {
       const response = await deleteDoctorsAPI(id);
@@ -56,8 +55,6 @@ export const useDeleteDoctorMutation = () => {
       toast.error("Failed to delete doctor");
     },
   });
-
-  return deleteDoctorMutation;
 };
 
 export const useUpdateDoctorMutation = () => {
@@ -79,8 +76,8 @@ export const useUpdateDoctorMutation = () => {
   });
 };
 
-export const usefetchAdministrativeQuery = () => {
-  return useQuery<User[], any>({
+export const useFetchAdministrativeQuery = () => {
+  return useQuery<User[]>({
     queryKey: ["fetchAdministrative"],
     queryFn: async () => {
       const response = await AdministrativesAPI();

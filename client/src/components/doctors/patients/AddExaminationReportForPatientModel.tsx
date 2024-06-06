@@ -1,14 +1,9 @@
-//.tsx
-
 import InputField from "@/components/common/inputs/InputField";
 import TextareaField from "@/components/common/inputs/TextareaField";
 import { DoctorReportParams } from "@/utils/types";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { GiConfirmed } from "react-icons/gi";
-import { IoClose } from "react-icons/io5";
 import { bookingFinishedMutation } from "../process";
-import FormContener from "@/components/common/forms/FormContener";
 import FormModelContainer from "@/components/common/models/FormModelContainer";
 
 type Props = {
@@ -20,17 +15,15 @@ type Props = {
 const AddExaminationReportForPatientModel: FC<Props> = ({ openModal, setOpenModal, bookingId }) => {
   const { register, handleSubmit, setValue } = useForm<DoctorReportParams>();
 
+  // Prcess to call back-end service
   const mutation = bookingFinishedMutation(bookingId!);
+
   const onSubmit: SubmitHandler<DoctorReportParams> = async (data: DoctorReportParams) => {
     if (!data.booking_id && !data.booking_status) return;
-    try {
-      await mutation.mutateAsync(data);
-      setOpenModal(false);
-    } catch (error) {
-      console.log("Error from AddExaminationReportForPatientModel ");
-      console.log(error);
-    }
+    await mutation.mutateAsync(data);
+    setOpenModal(false);
   };
+  
   setValue("booking_id", bookingId!);
   setValue("booking_status", "done");
 

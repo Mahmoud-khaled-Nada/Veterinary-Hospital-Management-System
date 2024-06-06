@@ -4,7 +4,9 @@ import { useEffect } from "react";
 import { getPatientsQueuetoDoctorThunk } from "@/store/doctor/doctorThunk";
 
 const PatientsTodayList = () => {
+
   const dispatch = useDispatch<AppDispatch>();
+
   const patientsQueue = useSelector((state: RootState) => state.doctor.queue);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const PatientsTodayList = () => {
       )}
       {patientsQueue.length > 0 && (
         <table className="table">
-          <thead>
+          <thead className=" text-white">
             <tr>
               <th>#</th>
               <th>Owner name</th>

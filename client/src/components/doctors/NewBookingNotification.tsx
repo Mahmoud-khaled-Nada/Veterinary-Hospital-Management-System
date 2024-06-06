@@ -4,13 +4,16 @@ import { AppDispatch, RootState } from "@/store";
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { readBookingNotificationsAPI } from "@/utils/apis";
-import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const NewBookingNotification = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch<AppDispatch>();
+
+  // data call from state
   const notification = useSelector((state: RootState) => state.notification.notifications);
+
   const memoizedNotification = useMemo(() => notification, [notification]);
 
   const handleEventNotifications = () => {
@@ -21,10 +24,8 @@ const NewBookingNotification = () => {
   };
 
   useEffect(() => {
-    if (notification.length === 0) {
-      dispatch(getbookingNotificationsThunk());
-    }
-  }, [dispatch, notification.length]);
+    dispatch(getbookingNotificationsThunk()); // call state
+  }, []);
 
   function readNotification(notificationId: string) {
     readBookingNotificationsAPI(notificationId).then(() => {
@@ -37,11 +38,9 @@ const NewBookingNotification = () => {
     <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700 p-4">
       {memoizedNotification &&
         memoizedNotification.map((row, index: number) => (
-          <li key={index} className={`pb-3 sm:pb-4 ${handleEventNotifications()}`}>
+          <li key={index} className="pb-3 sm:pb-4">
             <div
-              className={`flex items-center space-x-4 rtl:space-x-reverse ${
-                handleEventNotifications() || "cursor-pointer"
-              }`}
+              className="flex items-center space-x-4 rtl:space-x-reverse"
               onClick={() => {
                 if (pathname !== "/doctor") readNotification(row.notification_id);
               }}

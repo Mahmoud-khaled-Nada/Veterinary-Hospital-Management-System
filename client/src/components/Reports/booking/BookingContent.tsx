@@ -8,14 +8,15 @@ import { toast } from "react-toastify";
 
 type Props = {
   booking: BookingDetails[];
-  isLoading: boolean;
 };
 
-const BookingContent: FC<Props> = ({ booking, isLoading }) => {
+const BookingContent: FC<Props> = ({ booking }) => {
+
+
   const mutation = useMutation({
     mutationKey: ["deleteBookingReport"],
     mutationFn: async (id: number) => {
-      return await deleteBookingReportAPI(id);
+      return await deleteBookingReportAPI(id); // calling API
     },
     onSuccess: (response) => {
       toast.success(response.data.message);
@@ -44,9 +45,7 @@ const BookingContent: FC<Props> = ({ booking, isLoading }) => {
             </tr>
           </thead>
           <tbody>
-            {isLoading
-              ? "Loading"
-              : booking.map((booking, index) => (
+            {booking.map((booking, index) => (
                   <tr key={index} className="text-white">
                     <th>{index + 1}</th>
                     <td>{booking.specialty_name}</td>

@@ -3,13 +3,18 @@ import { formatDay } from "@/utils/helper";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useState } from "react";
 import ConfirmedModel from "@/components/common/models/ConfirmedModel";
-import { useDeleteAdministrativeMutation, usefetchAdministrativeQuery } from "../process";
+import { useDeleteAdministrativeMutation, useFetchAdministrativeQuery } from "../process";
 
 const ShowAdministrative = () => {
-  const administrative = usefetchAdministrativeQuery() as any;
+  //Prcess...
+  const administrative = useFetchAdministrativeQuery() as any;
+
   const [openModal, setOpenModal] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  //Prcess...
   const deleteAdministrativeMutation = useDeleteAdministrativeMutation();
+
   const confirmDeleteAdministrative = async () => {
     if (selectedId) {
       await deleteAdministrativeMutation.mutateAsync(selectedId);
@@ -20,12 +25,12 @@ const ShowAdministrative = () => {
   return (
     <div className="overflow-x-auto">
       <table className="table text-white">
-        <thead>
+        <thead className=" text-white">
           <tr>
-            <th>name</th>
-            <th>email</th>
-            <th>phone</th>
-            <th>permission</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Permission</th>
             <th>Created at</th>
             <th>Actions</th>
           </tr>
@@ -35,7 +40,7 @@ const ShowAdministrative = () => {
             <tr>
               <td colSpan={7}>Loading...</td>
             </tr>
-          ) : !administrative.isError && administrative.data.length > 0 ? (
+          ) : administrative.data.length > 0 ? (
             administrative.data.map((row: any) => (
               <tr key={row.id}>
                 <td>{row.name}</td>
@@ -45,7 +50,7 @@ const ShowAdministrative = () => {
                 <td>{formatDay(row.created_at)}</td>
                 <td className="flex items-center gap-3">
                   <RiDeleteBin6Line
-                    className="text-lg cursor-pointer text-red-700"
+                    className="text-lg cursor-pointer text-red-700 hover:text-red-500 transition-all"
                     onClick={() => {
                       setSelectedId(row.id);
                       setOpenModal(true);

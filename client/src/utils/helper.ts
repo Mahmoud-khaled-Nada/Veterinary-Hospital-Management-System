@@ -1,7 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
 
 export const currentDate = (): string => {
   const currentDate = new Date();
@@ -13,13 +10,11 @@ export const currentDate = (): string => {
 
 export const formatDay = (day: string) => moment(day).format("YYYY-MM-DD");
 
-export const isFutureOrToday = (dateString: string): boolean => {
-  const inputDate = new Date(dateString);
+export const isFutureOrToday = (date: string): boolean => {
+  const inputDate = new Date(date);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  if (inputDate >= today) {
-    return true;
-  }
+  if (inputDate >= today) return true;
   return false;
 };
 

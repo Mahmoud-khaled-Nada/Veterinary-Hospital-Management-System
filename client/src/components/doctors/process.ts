@@ -13,29 +13,28 @@ import { toast } from "react-toastify";
 
 export const addDoctorAppointmentsMutation = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const mutation = useMutation<any, AxiosError, AppointmentsParam>({
-    mutationKey: ["addDoctorAppointmentsMutation"],
+
+  return useMutation<any, AxiosError, AppointmentsParam>({
     mutationFn: async (data: AppointmentsParam) => {
       return await addDoctorAppointmentsAPI(data);
     },
     onSuccess: (response) => {
-      dispatch(addAppointments(response.data[0]));
+      dispatch(addAppointments(response.data[0])); // state
       toast.success("Appointment successfully added");
     },
     onError: (error: AxiosError | any) => {
       const err = error.response;
-      console.log(error.response.status);
       if (err.status == 400) toast.warn(err.data.message);
       else toast.error(err.data.message || "Failed to create appointment");
     },
   });
-  return mutation;
 };
 
 export const useDeleteAppointmentMutation = () => {
+
   const dispatch = useDispatch<AppDispatch>();
+
   return useMutation<any, AxiosError, number>({
-    mutationKey: ["useDeleteAppointmentMutation"],
     mutationFn: async (id: number) => {
       const response = await deleteAppointmentAPI(id);
       return response.data;

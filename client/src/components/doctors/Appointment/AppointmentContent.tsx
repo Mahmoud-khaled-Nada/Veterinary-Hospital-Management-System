@@ -9,15 +9,20 @@ type Props = {
 };
 
 const AppointmentContent: FC<Props> = ({ appointments }) => {
+
   const [openModal, setOpenModal] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+
+// process...
   const deleteMutation = useDeleteAppointmentMutation();
+
   const confirmDeleteAppointments = async () => {
     if (selectedId) {
-      await deleteMutation.mutateAsync(selectedId);
+      await deleteMutation.mutateAsync(selectedId); // call API
       setOpenModal(false);
     }
   };
+
   return (
     <div className="overflow-x-auto">
       <table className="table text-white">
@@ -32,7 +37,7 @@ const AppointmentContent: FC<Props> = ({ appointments }) => {
           </tr>
         </thead>
         <tbody>
-          {appointments.length > 0 ? (
+          {appointments && appointments.length > 0 ? (
             appointments.map((row, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>

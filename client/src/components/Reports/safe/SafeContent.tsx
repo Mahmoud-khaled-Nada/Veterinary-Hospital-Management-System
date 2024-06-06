@@ -27,7 +27,7 @@ const SafeContent: FC<Props> = ({ safe, isLoading, total }) => {
           </thead>
           <tbody>
             {isLoading
-              ? "Loading"
+              ? "Loading..."
               : safe.map((row, index) => (
                   <tr key={index} className="text-white">
                     <th>{index + 1}</th>

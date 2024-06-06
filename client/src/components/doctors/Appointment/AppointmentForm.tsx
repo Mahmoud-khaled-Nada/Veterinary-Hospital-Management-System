@@ -7,13 +7,16 @@ import { toast } from "react-toastify";
 import { addDoctorAppointmentsMutation } from "../process";
 
 const AppointmentForm = () => {
+  // process...
+  const mutation = addDoctorAppointmentsMutation();
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<AppointmentsParam>();
-  const mutation = addDoctorAppointmentsMutation();
+
   const onSubmit: SubmitHandler<AppointmentsParam> = async (data: AppointmentsParam) => {
     if (!isFutureOrToday(data.day)) {
       toast.warn("Please select a today date or a future date");

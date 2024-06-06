@@ -17,10 +17,11 @@ const CreateNewSpecialtyModel: FC<Props> = ({ openModal, setOpenModal }) => {
     formState: { errors },
   } = useForm<SpecialtyParam>();
 
+  // handle call API
   const mutation = createSpecialtyMutation();
-  const onSubmit: SubmitHandler<SpecialtyParam> = async (data: SpecialtyParam) => {
-    mutation.mutateAsync(data);
-  };
+
+  const onSubmit: SubmitHandler<SpecialtyParam> = async (data: SpecialtyParam) => mutation.mutateAsync(data);
+
   return (
     <>
       {openModal && (

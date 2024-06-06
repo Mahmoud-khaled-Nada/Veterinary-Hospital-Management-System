@@ -20,11 +20,11 @@ const SpecialtyEdit: FC<Props> = ({ openModal, setOpenModal, specialtyId }) => {
     specialty && setUpdateValue(specialty.specialty_name || "");
   }, [specialty]);
 
+  // process
   const mutation = updateSpecialtyMutation(specialtyId);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(updateValue);
     mutation.mutateAsync({ specialty_name: updateValue })
   };
 

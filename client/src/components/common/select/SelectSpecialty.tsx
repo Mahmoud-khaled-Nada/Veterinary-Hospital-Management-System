@@ -16,7 +16,7 @@ const SelectSpecialty: FC<Props<any>> = ({ register, errors }) => {
   const { specialties } = useSelector((state: RootState) => state.specialty);
 
   useEffect(() => {
-    if (specialties.length == 0) dispatch(fetchSpecialtyThunk());
+    if (specialties.length === 0) dispatch(fetchSpecialtyThunk());
   }, []);
 
   return (

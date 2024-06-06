@@ -16,12 +16,14 @@ type Params = {
 };
 
 const SafeForm = () => {
+
   const [safe, setSafe] = useState([]);
   const [total, setTotal] = useState(0);
+
   const mutation = useMutation({
     mutationKey: ["safeReport"],
     mutationFn: (params: Params) => {
-      return safeReportAPI(params);
+      return safeReportAPI(params); //TODO  call API Server
     },
     onSuccess: (res) => {
       toast.success("success");
@@ -33,6 +35,8 @@ const SafeForm = () => {
       console.log(error);
     },
   });
+
+  
   const { register, handleSubmit } = useForm<Params>();
   const onSubmit: SubmitHandler<Params> = async (data: Params) => mutation.mutateAsync(data);
 

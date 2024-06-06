@@ -15,8 +15,7 @@ const Specialty = () => {
   }, []);
   return (
     <>
-      <div className="flex justify-between mx-2 my-4">
-        <h1>Specialty</h1>
+      <div className="ml-auto py-4 px-4">
       <SmallButton title="create" onClick={() => setOpenModal(true)}/>
       </div>
       <CreateNewSpecialtyModel openModal={openModal} setOpenModal={setOpenModal} />

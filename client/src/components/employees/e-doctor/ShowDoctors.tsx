@@ -8,8 +8,10 @@ import { useDeleteDoctorMutation, fetchDoctorsQuery } from "../process";
 import EditDoctorModel from "./EditDoctorModel";
 
 const ShowDoctors = () => {
+  // Process...
   const doctors = fetchDoctorsQuery();
   const deleteDoctorMutation = useDeleteDoctorMutation();
+
   const [openModal, setOpenModal] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [selectedDoctorId, setSelectedDoctorId] = useState<number | null>(null);
@@ -26,13 +28,13 @@ const ShowDoctors = () => {
   return (
     <div className="overflow-x-auto">
       <table className="table text-white">
-        <thead>
+        <thead className="text-white">
           <tr>
-            <th>name</th>
+            <th>Name</th>
             <th>Specialty</th>
-            <th>email</th>
-            <th>phone</th>
-            <th>permission</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Permission</th>
             <th>Created at</th>
             <th>Actions</th>
           </tr>
@@ -76,6 +78,8 @@ const ShowDoctors = () => {
         handleConfirmAction={confirmDeleteDoctor}
         actionName="Delete Doctor"
       />
+
+
       <EditDoctorModel
         openModal={openModalEdit}
         setOpenModal={setOpenModalEdit}
