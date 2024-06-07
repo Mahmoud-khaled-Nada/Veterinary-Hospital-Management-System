@@ -20,10 +20,16 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
+// http://localhost:8000/api/auth/create-user , {data}
+
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
+
     Route::post('create-user', [AuthController::class, 'createUser']);
+
     Route::post('login', [AuthController::class, 'login']);
 });
+
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('logout', [AuthController::class, 'logout']);
@@ -92,7 +98,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'reception-process'], func
 
 
 Route::group(['prefix' => 'reports'], function () {
-     Route::post('booking', [BookingReportController::class, 'booking']);
-     Route::delete('booking/{id}/delete', [BookingReportController::class, 'deleteBooking']);
-     Route::post('safe', [SafeReportController::class, 'safe']);
+    Route::post('booking', [BookingReportController::class, 'booking']);
+    Route::delete('booking/{id}/delete', [BookingReportController::class, 'deleteBooking']);
+    Route::post('safe', [SafeReportController::class, 'safe']);
 });

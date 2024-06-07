@@ -30,14 +30,12 @@ const CreateNewSpecialtyModel: FC<Props> = ({ openModal, setOpenModal }) => {
           title="Add Specialty"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="">
-            <InputFieldWithError
-              title="specialty medical name *"
-              name="specialty_name"
-              register={register}
-              errors={errors as FieldErrorsImpl<SpecialtyParam>}
-            />
-          </div>
+          <InputFieldWithError
+            title="specialty medical name *"
+            name="specialty_name"
+            register={register} 
+            errors={errors as FieldErrorsImpl<SpecialtyParam>}
+          />
         </FormModelContainer>
       )}
     </>

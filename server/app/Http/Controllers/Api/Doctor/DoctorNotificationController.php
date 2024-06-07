@@ -15,7 +15,7 @@ class DoctorNotificationController extends Controller
             $user = auth()->user();
             if (!$user->notifications->isEmpty()) {
                 $notificationsData = [];
-                $doctorNotifications = $user->notifications->paginate(10);
+                $doctorNotifications = $user->notifications;
                 foreach ($doctorNotifications as $notification) {
                     $notificationData = $notification->data;
                     $notificationData['notification_id'] = $notification->id;

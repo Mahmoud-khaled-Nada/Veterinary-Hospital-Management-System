@@ -3,7 +3,9 @@ import DoctorForm from "./e-doctor/DoctorForm";
 import AdministrativeForm from "./e-administrative/AdministrativeForm";
 
 const AddEmployee = () => {
+
   const [isDoctor, setIsDoctor] = useState(false);
+
   return (
     <>
       <section>

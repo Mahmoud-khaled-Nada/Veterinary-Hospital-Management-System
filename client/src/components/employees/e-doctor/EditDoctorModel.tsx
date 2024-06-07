@@ -15,15 +15,18 @@ interface Props {
 
 const EditDoctorModel: FC<Props> = ({ openModal, setOpenModal, selectedId }) => {
   const updateDoctorMutation = useUpdateDoctorMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<EditDoctorParams>();
+
   const onSubmit: SubmitHandler<EditDoctorParams> = async (data: EditDoctorParams) => {
     const filteredData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value !== ""));
     if (selectedId) await updateDoctorMutation.mutateAsync({ selectedId, filteredData });
   };
+
   return (
     <>
       {openModal && (

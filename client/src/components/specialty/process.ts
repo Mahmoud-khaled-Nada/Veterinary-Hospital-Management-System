@@ -10,18 +10,17 @@ import { toast } from "react-toastify";
 export const createSpecialtyMutation = () => {
   const dispatch = useDispatch<AppDispatch>();
   return useMutation({
-    mutationKey: ["createSpecialtyMutation"],
     mutationFn: async (data: SpecialtyParam) => {
       return await createSpecialtyAPI(data);
     },
     onSuccess: (response) => {
       dispatch(setSpecialties(response.data[0]));
-      toast(response?.data?.message, { type: "success" });
+      toast.success("Specialty created successfully");
     },
     onError: (error) => {
       console.log("Create Specialty Error");
       console.log(error);
-      toast("please try again", { type: "error" });
+      toast.error("please try again");
     },
   });
 };
