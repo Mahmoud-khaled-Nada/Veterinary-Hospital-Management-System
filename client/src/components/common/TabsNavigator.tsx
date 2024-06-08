@@ -13,7 +13,11 @@ interface Props {
 }
 
 const TabsNavigator: FC<Props> = ({ tabContent }) => {
+
   const [active, setActive] = useState<number>(0);
+
+  
+
   return (
     <>
       <ul className="flex flex-wrap -mb-px h-16 text-sm font-medium text-center text-gray-700 dark:text-gray-400">
